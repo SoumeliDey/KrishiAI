@@ -32,8 +32,8 @@ header select{font-weight:700;background:#f08a24!important;border-color:#fff!imp
 /* ===== DEFAULT GEMINI API KEY (fallback) — REPLACE THE TEXT BELOW WITH YOUR REAL KEY ===== */
 const DEFAULT_GEMINI_API_KEY = "PASTE_YOUR_API_KEY_HERE";
 const DEFK = DEFAULT_GEMINI_API_KEY && DEFAULT_GEMINI_API_KEY !== "PASTE_YOUR_API_KEY_HERE" ? DEFAULT_GEMINI_API_KEY : '';
-const \$=s=>document.querySelector(s),L=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null}},S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&','<':'<','>':'>','"':'"',"'":'''}[c]));
+const $=s=>document.querySelector(s),L=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null}},S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Math.random().toString(36).slice(2,9),ago=ts=>new Date(ts).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
 /* ===== TRANSLATIONS ===== */
 const K='home market prices dash msgs notifs profile login register logout hero sub explore join search all price qty contact details add edit del sold listings enq welcome easy name mobile pass role farmer buyer state district village save none demoF demoB note send message clear product category unit photo how sent status'.split(' ');
@@ -43,4 +43,355 @@ hi:'होम|बाज़ार|मंडी भाव|डैशबोर्ड
 bn:'হোম|বাজার|বাজার দর|ড্যাশবোর্ড|বার্তা|বিজ্ঞপ্তি|প্রোফাইল|লগইন|নিবন্ধন|লগআউট|আপনার ফসল বিক্রি করুন। আরও ভালো সুযোগ পান।|ক্রেতাদের সাথে সরাসরি যুক্ত হন, বাজার দর জানুন এবং সঠিক বাজারে ফসল পৌঁছান।|বাজার দেখুন|কৃষক হিসেবে যোগ দিন|ফসল, জায়গা খুঁজুন...|সব|দাম|পরিমাণ|কৃষকের সাথে যোগাযোগ|বিবরণ|পণ্য যোগ করুন|সম্পাদনা|মুছুন|বিক্রি হয়েছে|সক্রিয় তালিকা|জিজ্ঞাসা|স্বাগতম|সহজ কৃষক মোড|নাম|মোবাইল|পাসওয়ার্ড|ভূমিকা|কৃষক|ক্রেতা|রাজ্য|জেলা|গ্রাম / শহর|সংরক্ষণ|এখনো কিছু নেই|ডেমো কৃষক|ডেমো ক্রেতা|নমুনা বাজার দর শুধু প্রদর্শনের জন্য। বিক্রির আগে স্থানীয় মান্ডিতে দাম যাচাই করুন।|পাঠান|বার্তা|মুছুন|পণ্য|বিভাগ|একক|ছবি|কীভাবে কাজ করে|জিজ্ঞাসা পাঠানো হয়েছে|অবস্থা'.split('|'),
 mr:'मुख्यपृष्ठ|बाजार|बाजारभाव|डॅशबोर्ड|संदेश|सूचना|प्रोफाइल|लॉगिन|नोंदणी|लॉगआउट|तुमचे पीक विका. चांगल्या संधी मिळवा.|खरेदीदारांशी थेट जोडा, बाजारभाव जाणून घ्या आणि पीक योग्य बाजारात पोहोचवा.|बाजार पहा|शेतकरी म्हणून सामील व्हा|पीक, ठिकाण शोधा...|सर्व|किंमत|प्रमाण|शेतकऱ्याशी संपर्क|तपशील|उत्पादन जोडा|बदला|हटवा|विकले म्हणून नोंदवा|सक्रिय यादी|चौकशी|स्वागत|सोपा शेतकरी मोड|नाव|मोबाइल|पासवर्ड|भूमिका|शेतकरी|खरेदीदार|राज्य|जिल्हा|गाव / शहर|जतन करा|अजून काही नाही|डेमो शेतकरी|डेमो खरेदीदार|नमुना बाजारभाव फक्त प्रदर्शनासाठी. विकण्यापूर्वी स्थानिक मंडईत भाव तपासा.|पाठवा|संदेश|साफ करा|उत्पादन|वर्ग|एकक|फोटो|हे कसे चालते|चौकशी पाठवली|स्थिती'.split('|'),
 pa:'ਘਰ|ਮੰਡੀ|ਮੰਡੀ ਭਾਅ|ਡੈਸ਼ਬੋਰਡ|ਸੁਨੇਹੇ|ਸੂਚਨਾਵਾਂ|ਪ੍ਰੋਫਾਈਲ|ਲੌਗਇਨ|ਰਜਿਸਟਰ|ਲੌਗਆਊਟ|ਆਪਣੀ ਫ਼ਸਲ ਵੇਚੋ। ਬਿਹਤਰ ਮੌਕੇ ਪਾਓ।|ਖਰੀਦਦਾਰਾਂ ਨਾਲ ਸਿੱਧਾ ਜੁੜੋ, ਮੰਡੀ ਭਾਅ ਜਾਣੋ ਅਤੇ ਫ਼ਸਲ ਸਹੀ ਮੰਡੀ ਤੱਕ ਪਹੁੰਚਾਓ।|ਮੰਡੀ ਵੇਖੋ|ਕਿਸਾਨ ਵਜੋਂ ਜੁੜੋ'.split('|'),
-gu:'હોમ|બજાર|બજાર ભાવ|ડેશબોર્ડ|સંદેશા|સૂચનાઓ|પ્રોફાઇ
+gu:'હોમ|બજાર|બજાર ભાવ|ડેશબોર્ડ|સંદેશા|સૂચનાઓ|પ્રોફાઇલ|લૉગિન|નોંધણી|લૉગઆઉટ|તમારો પાક વેચો. વધુ સારી તકો મેળવો.|ખરીદદારો સાથે સીધા જોડાઓ, બજાર ભાવ જાણો અને પાક યોગ્ય બજારમાં પહોંચાડો.|બજાર જુઓ|ખેડૂત તરીકે જોડાઓ'.split('|'),
+ta:'முகப்பு|சந்தை|சந்தை விலை|டாஷ்போர்டு|செய்திகள்|அறிவிப்புகள்|சுயவிவரம்|உள்நுழை|பதிவு|வெளியேறு|உங்கள் அறுவடையை விற்கவும். சிறந்த வாய்ப்புகளைப் பெறுங்கள்.|வாங்குபவர்களுடன் நேரடியாக இணையுங்கள், சந்தை விலையை அறியுங்கள்.|சந்தையைப் பார்க்க|விவசாயியாக இணையுங்கள்'.split('|'),
+te:'హోమ్|మార్కెట్|మార్కెట్ ధరలు|డ్యాష్‌బోర్డ్|సందేశాలు|నోటిఫికేషన్లు|ప్రొఫైల్|లాగిన్|నమోదు|లాగౌట్|మీ పంటను అమ్మండి. మెరుగైన అవకాశాలు పొందండి.|కొనుగోలుదారులతో నేరుగా కలవండి, మార్కెట్ ధరలు తెలుసుకోండి.|మార్కెట్ చూడండి|రైతుగా చేరండి'.split('|'),
+kn:'ಮುಖಪುಟ|ಮಾರುಕಟ್ಟೆ|ಮಾರುಕಟ್ಟೆ ಬೆಲೆ|ಡ್ಯಾಶ್‌ಬೋರ್ಡ್|ಸಂದೇಶಗಳು|ಅಧಿಸೂಚನೆಗಳು|ಪ್ರೊಫೈಲ್|ಲಾಗಿನ್|ನೋಂದಣಿ|ಲಾಗೌಟ್|ನಿಮ್ಮ ಬೆಳೆ ಮಾರಿ. ಉತ್ತಮ ಅವಕಾಶ ಪಡೆಯಿರಿ.|ಖರೀದಿದಾರರೊಂದಿಗೆ ನೇರವಾಗಿ ಸಂಪರ್ಕಿಸಿ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ ತಿಳಿಯಿರಿ.|ಮಾರುಕಟ್ಟೆ ನೋಡಿ|ರೈತರಾಗಿ ಸೇರಿ'.split('|'),
+ml:'ഹോം|മാർക്കറ്റ്|വിപണി വില|ഡാഷ്ബോർഡ്|സന്ദേശങ്ങൾ|അറിയിപ്പുകൾ|പ്രൊഫൈൽ|ലോഗിൻ|രജിസ്റ്റർ|ലോഗൗട്ട്|നിങ്ങളുടെ വിള വിൽക്കൂ. മെച്ചപ്പെട്ട അവസരങ്ങൾ നേടൂ.|വാങ്ങുന്നവരുമായി നേരിട്ട് ബന്ധപ്പെടൂ, വിപണി വില അറിയൂ.|മാർക്കറ്റ് കാണുക|കർഷകനായി ചേരൂ'.split('|'),
+or:'ମୁଖ୍ୟ ପୃଷ୍ଠା|ବଜାର|ବଜାର ଦର|ଡ୍ୟାସବୋର୍ଡ|ବାର୍ତ୍ତା|ବିଜ୍ଞପ୍ତି|ପ୍ରୋଫାଇଲ|ଲଗଇନ|ପଞ୍ଜୀକରଣ|ଲଗଆଉଟ|ଆପଣଙ୍କ ଫସଲ ବିକ୍ରି କରନ୍ତୁ। ଭଲ ସୁଯୋଗ ପାଆନ୍ତୁ।|କ୍ରେତାମାନଙ୍କ ସହ ସିଧାସଳଖ ଯୁକ୍ତ ହୁଅନ୍ତୁ, ବଜାର ଦର ଜାଣନ୍ତୁ।|ବଜାର ଦେଖନ୍ତୁ|କୃଷକ ଭାବେ ଯୋଗ ଦିଅନ୍ତୁ'.split('|')};
+const LN={en:'English',hi:'हिंदी',bn:'বাংলা',mr:'मराठी',pa:'ਪੰਜਾਬੀ',gu:'ગુજરાતી',ta:'தமிழ்',te:'తెలుగు',kn:'ಕನ್ನಡ',ml:'മലയാളം',or:'ଓଡ଼ିଆ'};
+const VL={en:'en-IN',hi:'hi-IN',bn:'bn-IN',mr:'mr-IN',pa:'pa-IN',gu:'gu-IN',ta:'ta-IN',te:'te-IN',kn:'kn-IN',ml:'ml-IN',or:'or-IN'};
+let lang=L('fmc4_lang')||'en',easy=!!L('fmc4_easy');
+const t=k=>{const i=K.indexOf(k);return TR[lang][i]||TR.en[i]||k};
+/* ===== DATA ===== */
+const ST={'West Bengal':['Bankura','Bardhaman','Hooghly','Murshidabad','Purulia','Nadia','Birbhum','Kolkata'],'Bihar':['Patna','Nalanda','Gaya','Muzaffarpur'],'Uttar Pradesh':['Lucknow','Agra','Varanasi','Meerut'],'Maharashtra':['Nashik','Pune','Nagpur','Kolhapur'],'Punjab':['Ludhiana','Amritsar','Patiala'],'Odisha':['Cuttack','Puri','Sambalpur'],'Assam':['Jorhat','Nagaon','Guwahati'],'Madhya Pradesh':['Indore','Bhopal','Sehore']};
+const CATS=['Vegetables','Fruits','Grains','Rice','Wheat','Pulses','Oilseeds','Spices','Flowers','Dairy','Other'],UN=['kg','Quintal','Ton','Piece','Bag'],BT=['Retailer','Wholesaler','Shop owner','Restaurant','Consumer','Other'];
+function seed(){const n=Date.now(),us=[];
+'f1|Ramesh Mondal|9000000001|West Bengal|Bardhaman|Galsi|Mondal Agro Farm,f2|Sunita Devi|9000000002|Bihar|Nalanda|Biharsharif|Devi Kisan Farm,f3|Gurpreet Singh|9000000003|Punjab|Ludhiana|Jagraon|Singh Farms,f4|Santosh Patil|9000000004|Maharashtra|Nashik|Lasalgaon|Patil Agro,f5|Bimal Behera|9000000005|Odisha|Cuttack|Banki|Behera Farm,f6|Mohan Lal|9000000006|Uttar Pradesh|Agra|Fatehabad|Lal Kheti,f7|Anita Gogoi|9000000007|Assam|Jorhat|Titabor|Gogoi Orchard,f8|Dinesh Verma|9000000008|Madhya Pradesh|Sehore|Ashta|Verma Krishi'.split(',').forEach(r=>{const a=r.split('|');us.push({id:a[0],name:a[1],mobile:a[2],pass:'demo',role:'farmer',state:a[3],district:a[4],village:a[5],farm:a[6],demo:1,lang:'en'})});
+us.push(
+  {id:'b1',name:'Amit Sharma (Demo Buyer)',mobile:'9000000010',pass:'demo',role:'buyer',state:'West Bengal',district:'Hooghly',village:'Chinsurah',addr:'GT Road Market Area, Chinsurah (Approx. business area)',biz:'Sharma Fresh Mart',btype:'Retailer',lat:22.9006,lng:88.3895,locShare:1,demo:1,lang:'en'},
+  {id:'b2',name:'Subrata Dutta (Demo Buyer)',mobile:'9000000011',pass:'demo',role:'buyer',state:'West Bengal',district:'Bankura',village:'Bankura',addr:'Machantala Wholesale Market Area, Bankura (Approx. business area)',biz:'Dutta Agro Wholesalers',btype:'Wholesaler',lat:23.2324,lng:87.0650,locShare:1,demo:1,lang:'en'},
+  {id:'b3',name:'Rina Mukherjee (Demo Buyer)',mobile:'9000000012',pass:'demo',role:'buyer',state:'West Bengal',district:'Bankura',village:'Bishnupur',addr:'Main Bazaar Road, Bishnupur (Approx. business area)',biz:'Bishnupur Heritage Kitchen',btype:'Restaurant',lat:23.0715,lng:87.3198,locShare:1,demo:1,lang:'en'},
+  {id:'b4',name:'Pradip Saha (Demo Buyer)',mobile:'9000000013',pass:'demo',role:'buyer',state:'West Bengal',district:'Bardhaman',village:'Bardhaman',addr:'Station Bazar Mandi Area, Bardhaman (Approx. business area)',biz:'Saha Grain & Produce Co.',btype:'Wholesaler',lat:23.2392,lng:87.8694,locShare:1,demo:1,lang:'en'},
+  {id:'b5',name:'Neha Chatterjee (Demo Buyer)',mobile:'9000000014',pass:'demo',role:'buyer',state:'West Bengal',district:'Kolkata',village:'Kolkata',addr:'Gariahat Market Area, Kolkata (Approx. business area)',biz:'Bengal Harvest Retail',btype:'Retailer',lat:22.5186,lng:88.3661,locShare:1,demo:1,lang:'en'},
+  {id:'b6',name:'Kajal Mahato (Demo Buyer)',mobile:'9000000015',pass:'demo',role:'buyer',state:'West Bengal',district:'Purulia',village:'Purulia',addr:'Clock Tower Market Area, Purulia (Approx. business area)',biz:'Mahato Daily Needs Shop',btype:'Shop owner',lat:23.3320,lng:86.3653,locShare:1,demo:1,lang:'en'},
+  {id:'b7',name:'Tariq Mondal (Demo Buyer)',mobile:'9000000016',pass:'demo',role:'buyer',state:'West Bengal',district:'Murshidabad',village:'Berhampore',addr:'Khagra Market Area, Murshidabad (Approx. business area)',biz:'Murshidabad Fresh Supply',btype:'Wholesaler',lat:24.0987,lng:88.2683,locShare:1,demo:1,lang:'en'}
+);
+us[0].name='Ramesh Mondal (Demo Farmer)';
+const ps='Basmati Rice|🌾|Rice|f1|50|Quintal|3200|West Bengal|Bardhaman|Galsi|A,Potato|🥔|Vegetables|f6|30|Quintal|1400|Uttar Pradesh|Agra|Fatehabad|A,Tomato|🍅|Vegetables|f1|800|kg|28|West Bengal|Nadia|Krishnanagar|B,Onion|🧅|Vegetables|f4|60|Quintal|1800|Maharashtra|Nashik|Lasalgaon|A,Mustard Seeds|🌼|Oilseeds|f1|20|Quintal|5600|West Bengal|Birbhum|Bolpur|A,Wheat|🌾|Wheat|f3|100|Quintal|2300|Punjab|Ludhiana|Jagraon|A,Green Chilli|🌶️|Vegetables|f5|300|kg|45|Odisha|Cuttack|Banki|B,Brinjal|🍆|Vegetables|f1|500|kg|22|West Bengal|Murshidabad|Berhampore|A,Cauliflower|🥦|Vegetables|f2|400|kg|25|Bihar|Nalanda|Biharsharif|A,Mango (Langra)|🥭|Fruits|f2|200|Quintal|5500|Bihar|Muzaffarpur|Kanti|A,Banana|🍌|Fruits|f7|150|Quintal|1600|Assam|Jorhat|Titabor|A,Masoor Dal|🫘|Pulses|f3|40|Quintal|6200|Punjab|Amritsar|Ajnala|A,Turmeric|🟡|Spices|f5|25|Quintal|9500|Odisha|Cuttack|Banki|A,Cabbage|🥬|Vegetables|f1|600|kg|14|West Bengal|Bankura|Bishnupur|B,Fresh Vegetables Mix|🥕|Vegetables|f1|100|Bag|450|West Bengal|Purulia|Raghunathpur|A,Sharbati Wheat|🌾|Wheat|f8|80|Quintal|2600|Madhya Pradesh|Sehore|Ashta|A'.split(',').map((r,i)=>{const a=r.split('|');return{id:'p'+i,fid:a[3],name:a[0],emoji:a[1],cat:a[2],qty:+a[4],unit:a[5],price:+a[6],state:a[7],district:a[8],village:a[9],grade:a[10],date:new Date(n-864e5*(2+i)).toISOString().slice(0,10),desc:'Fresh '+a[0]+' directly from the farm. (Demo listing)',avail:'Available',ts:n-i*36e5}});
+return{users:us,products:ps,enq:[],msgs:[],notifs:[]}}
+let DB=L('fmc4_db')||seed();const save=()=>S('fmc4_db',DB),U=id=>DB.users.find(u=>u.id===id);
+let me=U(L('fmc4_me')),F={q:'',cat:'',min:'',max:'',st:'',di:'',qty:'',sort:'recent'},peer=null,ed=null,IMG='',PF={q:'',d:'',s:0};
+let NF={q:'',st:'',di:'',btype:'',maxKm:''},NVIEW='map',F_LOC=null,PENDING_LOC=null,MAP_INST=null,MAP_LAYER=null;
+const PR=[];
+'Rice|🌾|Bardhaman Mandi|Bardhaman|2800|3300|2950-3000-3050-3100-3150-3180;Potato|🥔|Hooghly Market|Hooghly|1100|1500|1300-1250-1350-1400-1380-1420;Tomato|🍅|Nadia Mandi|Nadia|2200|3200|2500-2700-2600-2900-2800-2750;Onion|🧅|Lasalgaon|Nashik|1500|2100|1700-1750-1800-1900-1850-1800;Mustard|🌼|Bolpur Mandi|Birbhum|5300|5900|5400-5500-5550-5600-5650-5600;Wheat|🌾|Ludhiana Mandi|Ludhiana|2200|2450|2250-2280-2300-2320-2340-2330;Green Chilli|🌶️|Cuttack Market|Cuttack|3800|5200|4200-4400-4600-4500-4700-4600;Brinjal|🍆|Berhampore|Murshidabad|1800|2600|2000-2100-2200-2150-2250-2200;Cauliflower|🥦|Nalanda Mandi|Nalanda|2000|3000|2300-2400-2500-2550-2500-2600;Mango|🥭|Muzaffarpur|Muzaffarpur|5000|6500|5400-5600-5800-5700-5750-5800;Banana|🍌|Jorhat Market|Jorhat|1400|1900|1500-1550-1600-1650-1620-1650;Masoor Dal|🫘|Amritsar Mandi|Amritsar|5900|6500|6000-6100-6150-6200-6180-6200;Turmeric|🟡|Cuttack Market|Cuttack|8800|10200|9200-9300-9400-9500-9450-9500;Cabbage|🥬|Bankura Mandi|Bankura|900|1500|1000-1100-1150-1200-1180-1200;Soybean|🌱|Indore Mandi|Indore|4300|4900|4500-4550-4600-4650-4620-4600'.split(';').forEach(r=>{const a=r.split('|');PR.push({c:a[0],e:a[1],m:a[2],d:a[3],mn:+a[4],mx:+a[5],tr:a[6].split('-').map(Number)})});
+/* ===== HELPERS ===== */
+const toast=m=>{const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),2400)};
+const N=(u,k,...a)=>{DB.notifs.unshift({id:uid(),uid:u,text:'',k,a,ts:Date.now(),read:0})};
+const HV=!!(window.SpeechRecognition||window.webkitSpeechRecognition);
+function mic(id){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return;const r=new R();r.lang=VL[lang];r.onresult=e=>{const el=$('#'+id);el.value=e.results[0][0].transcript;el.dispatchEvent(new Event('input'))};r.onerror=()=>toast('🎤 ?');toast('🎤 ...');r.start()}
+const inp=(id,lb,ty='text',v='',m=0,ex='')=>`<label>${lb}<span class="mw"><input id="${id}" type="${ty}" value="${esc(v)}" ${ex}>${m&&HV?`<button type="button" class="mic" onclick="mic('${id}')">🎤</button>`:''}</span></label>`;
+const sel=(id,lb,arr,v='',ex='',g='')=>`<label>${lb}<select id="${id}" ${ex}>${arr.map(a=>`<option value="${esc(a)}" ${a==v?'selected':''}>${g==='t'?t(a):g?tv(g,a):esc(a)}</option>`).join('')}</select></label>`;
+const locH=(p,st,di)=>sel(p+'s',t('state'),Object.keys(ST),st,`onchange="fillD('${p}d',this.value)"`)+sel(p+'d',t('district'),ST[st]||[],di);
+const fillD=(id,st,all)=>{const el=$('#'+id);if(!el)return;el.innerHTML=(all?`<option value="">${t('all')}</option>`:'')+(ST[st]||[]).map(d=>`<option>${d}</option>`).join('')};
+const pic=p=>p.img?`<img src="${p.img}" alt="">`:`<div class="ph">${p.emoji||'🌱'}</div>`;
+const logo='<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#10b981"/><path d="M16 26V12M16 16c-5 0-7-3-7-7 5 0 7 2 7 7zM16 19c4 0 6-2 6-6-4 0-6 1.5-6 6z" stroke="#fff" stroke-width="2" fill="#fff3" stroke-linecap="round"/></svg>';
+/* ===== DISTANCE & MAPS HELPERS ===== */
+function havKm(lat1,lon1,lat2,lon2){const R=6371,dLat=(lat2-lat1)*Math.PI/180,dLon=(lon2-lon1)*Math.PI/180,a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a))}
+const fmtDist=km=>km<1?`${Math.round(km*1000)} ${t('meters')}`:`${km.toFixed(1)} ${t('km')}`;
+const hasCoords=b=>typeof b.lat==='number'&&typeof b.lng==='number'&&!Number.isNaN(b.lat)&&!Number.isNaN(b.lng);
+function gmapsSearchUrl(b){const q=hasCoords(b)?`${b.lat},${b.lng}`:[b.biz,b.addr,b.village,b.district,b.state].filter(Boolean).join(', ');return'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)}
+function gmapsDirUrl(b){const dest=hasCoords(b)?`${b.lat},${b.lng}`:[b.biz,b.addr,b.village,b.district,b.state].filter(Boolean).join(', ');let u='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest);if(F_LOC)u+='&origin='+encodeURIComponent(`${F_LOC.lat},${F_LOC.lng}`);return u}
+/* ===== COMPONENTS ===== */
+const card=p=>{const f=U(p.fid);return`<div class="card">${pic(p)}<div class="cb"><b>${esc(pn(p))}</b> ${p.avail==='Sold'?`<span class="tag sold">${t('s_Sold')}</span>`:`<span class="tag ok">${t('s_Available')}</span>`}<small>👨‍🌾 ${esc(f?.name.replace(' (Demo Farmer)',''))} · 📍 ${esc(p.district)}, ${esc(p.state)}</small><div class="pr">₹${p.price}<small> /${tv('u',p.unit)}</small></div><small>${t('qty')}: ${p.qty} ${tv('u',p.unit)} · ${t('grade')} ${p.grade} · 🗓 ${p.date}</small><div class="row"><button class="b g2" onclick="det('${p.id}')">${t('details')}</button><button class="b o" onclick="enqF('${p.id}')">${t('contact')}</button></div></div></div>`};
+function res(){let a=DB.products.filter(p=>{const s=(p.name+p.cat+p.state+p.district+p.village+(U(p.fid)?.name||'')).toLowerCase();return(!F.q||s.includes(F.q.toLowerCase()))&&(!F.cat||p.cat===F.cat)&&(!F.min||p.price>=+F.min)&&(!F.max||p.price<=+F.max)&&(!F.st||p.state===F.st)&&(!F.di||p.district===F.di)&&(!F.qty||p.qty>=+F.qty)});
+a.sort((x,y)=>F.sort==='low'?x.price-y.price:F.sort==='high'?y.price-x.price:F.sort==='qty'?y.qty-x.qty:y.ts-x.ts);return a.length?`<div class="grid">${a.map(card).join('')}</div>`:`<div class="box">🌱 ${t('none')}</div>`}
+const upd=()=>{$('#res').innerHTML=res()};
+function det(id){const p=DB.products.find(x=>x.id===id),f=U(p.fid);$('#modal').innerHTML=`<div onclick="if(event.target===this)closeM()"><div class="mb"><div class="card">${pic(p)}</div><h2>${esc(pn(p))}</h2><div class="pr">₹${p.price}/${tv('u',p.unit)}</div><p>${esc(p.desc)}</p><small>👨‍🌾 ${esc(f?.name)} ${f?.farm?'· '+esc(f.farm):''}<br>📍 ${esc(p.village)}, ${esc(p.district)}, ${esc(p.state)}<br>${t('qty')}: ${p.qty} ${tv('u',p.unit)} · ${t('grade')} ${p.grade} · ${t('harvest')} ${p.date}${f?.demo?'<br>⚠️ '+t('demoacc'):''}</small><div class="row"><button class="b o" onclick="enqF('${p.id}')">📨 ${t('contact')}</button>${me&&me.role==='buyer'&&f?`<a class="b" style="text-decoration:none;text-align:center;background:#25d366" target="_blank" href="https://wa.me/91${f.mobile}?text=${encodeURIComponent('Hello, I am interested in your '+p.name+' on Farmer Market Connect')}">WhatsApp</a>`:''}<button class="b g2" onclick="closeM()">✕</button></div></div></div>`}
+const closeM=()=>{$('#modal').innerHTML=''};
+function enqF(id,presetText=''){if(!me){closeM();toast(t('v_login'));return go('login')}if(me.role!=='buyer')return toast(t('v_buyer'));const p=DB.products.find(x=>x.id===id);$('#modal').innerHTML=`<div onclick="if(event.target===this)closeM()"><div class="mb"><h3>📨 ${esc(pn(p))}</h3>${inp('eb',t('name'),'text',me.name)}${inp('eq',t('qty')+' ('+p.unit+')','number','',1)}${inp('em',t('mobile'),'tel',me.mobile)}<label>${t('message')}<textarea id="et" rows="3">${esc(presetText)}</textarea></label><div class="row"><button class="b" onclick="sendEnq('${id}')">${t('send')}</button><button class="b g2" onclick="closeM()">✕</button></div></div></div>`}
+function sendEnq(id){const p=DB.products.find(x=>x.id===id),q=$('#eq').value;if(!q)return toast(t('v_qty'));const tx=$('#et').value||'I am interested in '+p.name;DB.enq.unshift({id:uid(),pid:id,fid:p.fid,bid:me.id,bn:$('#eb').value,qty:q,msg:tx,mob:$('#em').value,status:'New',ts:Date.now()});DB.msgs.push({id:uid(),from:me.id,to:p.fid,text:`[${p.name} · ${q} ${p.unit}] ${tx}`,ts:Date.now(),read:0});N(p.fid,'n_enq',p.name,$('#eb').value);save();closeM();toast('✅ '+t('sent'));render()}
+const stat=(e,s)=>{e=DB.enq.find(x=>x.id===e);e.status=s;N(e.bid,'n_stat',s);DB.msgs.push({id:uid(),from:me.id,to:e.bid,text:'Status: '+s,ts:Date.now(),read:0});save();render()};
+/* ===== BUYER CONTACT & ENQUIRY FROM NEARBY BUYERS ===== */
+function contactBuyer(bid){if(!me){toast(t('v_login'));return go('login')}const b=U(bid);if(!b)return;peer=bid;const seedMsg=`Hello ${b.name}, I found ${b.biz||b.name} on Nearby Buyers (${t('nearby')}).`;if(!DB.msgs.some(m=>(m.from===me.id&&m.to===bid)||(m.from===bid&&m.to===me.id))){DB.msgs.push({id:uid(),from:me.id,to:bid,text:seedMsg,ts:Date.now(),read:0});N(bid,'n_msg',me.name);save()}go('msgs')}
+function enquireBuyer(bid){const b=U(bid);if(!b)return;const fp=DB.products.find(p=>me&&p.fid===me.id)||DB.products[0];if(!fp)return toast(t('none'));$('#modal').innerHTML=`<div onclick="if(event.target===this)closeM()"><div class="mb"><h3>📨 ${t('send_enq_to')} ${esc(b.biz||b.name)}</h3><small>📍 ${esc([b.addr,b.village,b.district,b.state].filter(Boolean).join(', '))}</small>${inp('beq_n',t('name'),'text',me?me.name:'')}${inp('beq_m',t('mobile'),'tel',me?me.mobile:'')}${inp('beq_c',t('product'),'text',fp.name)}${inp('beq_q',t('qty')+' ('+fp.unit+')','number','10',1)}<label>${t('message')}<textarea id="beq_t" rows="3">Hello ${esc(b.name)}, I have ${esc(fp.name)} available for ${esc(b.biz||b.name)}.</textarea></label><div class="row"><button class="b" onclick="submitBuyerEnq('${bid}','${fp.id}')">${t('send')}</button><button class="b g2" onclick="closeM()">✕</button></div></div></div>`}
+function submitBuyerEnq(bid,pid){const b=U(bid),q=$('#beq_q').value.trim(),nmV=$('#beq_n').value.trim(),mbV=$('#beq_m').value.trim(),cr=$('#beq_c').value.trim(),tx=$('#beq_t').value.trim()||`Enquiry for ${cr}`;if(!q)return toast(t('v_qty'));const senderId=me?me.id:'guest';DB.enq.unshift({id:uid(),pid,fid:senderId,bid,bn:nmV||b.name,qty:q,msg:`[${cr}] ${tx}`,mob:mbV,status:'New',ts:Date.now()});DB.msgs.push({id:uid(),from:senderId,to:bid,text:`[${cr} · ${q}] ${tx}`,ts:Date.now(),read:0});N(bid,'n_enq',cr,nmV||t('farmer'));save();closeM();toast('✅ '+t('sent'));if(location.hash==='#nearby')renderNearby()}
+function openBuyerModal(bid){const b=U(bid);if(!b)return;const km=F_LOC&&hasCoords(b)?havKm(F_LOC.lat,F_LOC.lng,b.lat,b.lng):null;$('#modal').innerHTML=`<div onclick="if(event.target===this)closeM()"><div class="mb"><h2>🏪 ${esc(b.biz||b.name)}</h2><span class="tag info">${esc(b.btype||'Buyer')}</span> ${b.demo?`<span class="tag sold">${t('demoacc')}</span>`:''}<p><b>${t('name')}:</b> ${esc(b.name)}<br><b>${t('addr')}:</b> ${esc(b.addr||'')}<br><b>${t('location')}:</b> ${esc([b.village,b.district,b.state].filter(Boolean).join(', '))}<br><b>${t('dist')}:</b> ${km!==null?fmtDist(km):`${esc(b.district||'')}, ${esc(b.state||'')}`}</p><div class="row"><a class="b g2 sm" target="_blank" rel="noopener" href="${gmapsSearchUrl(b)}">🗺️ ${t('view_gmaps')}</a><a class="b g2 sm" target="_blank" rel="noopener" href="${gmapsDirUrl(b)}">🧭 ${t('get_dir')}</a></div><div class="row"><button class="b sm" onclick="closeM();contactBuyer('${b.id}')">💬 ${t('contact_buyer')}</button><button class="b o sm" onclick="closeM();enquireBuyer('${b.id}')">📨 ${t('send_enq')}</button><button class="b g2 sm" onclick="closeM()">✕</button></div></div></div>`}
+/* ===== PAGES ===== */
+const gate=()=>`<div class="box"><h2>🔑 ${t('login')}</h2><button class="b" onclick="go('login')">${t('login')}</button></div>`;
+const PG={};
+PG.home=()=>{const pv=DB.products.slice(0,4);return`<div class="hero"><h1>${t('hero')}</h1><p>${t('sub')}</p><div class="row" style="max-width:460px"><button class="b o" onclick="go('market')">${t('explore')}</button><button class="b w" onclick="go('nearby')">🗺️ ${t('nearby')}</button><button class="b g2" onclick="go('register')">${t('join')}</button></div><div class="big">🌾</div></div>
+<div class="stats"><div class="stat"><b>${DB.products.filter(p=>p.avail!=='Sold').length}</b>${t('product')}</div><div class="stat"><b>${DB.users.filter(u=>u.role==='farmer').length+1240}</b>${t('farmer')}</div><div class="stat"><b>${DB.users.filter(u=>u.role==='buyer').length+386}</b>${t('buyer')}</div><div class="stat"><b>${860+DB.products.filter(p=>p.avail==='Sold').length}</b>${t('sold')}</div></div><small>${t('demostat')}</small>
+<h2>${t('how')}</h2><div class="grid">${[['📝',t('register')],['📦',t('add')],['🤝',t('contact')]].map((x,i)=>`<div class="box"><div style="font-size:2.4em">${x[0]}</div><b>${i+1}. ${x[1]}</b></div>`).join('')}</div>
+<h2>${t('market')}</h2><div class="grid">${pv.map(card).join('')}</div>
+<h2>${t('prices')}</h2><div class="grid">${PR.slice(0,3).map(prCard).join('')}</div><div class="note">${t('note')}</div>
+<h2>🌐</h2><div class="row">${Object.keys(LN).map(k=>`<button class="b g2" style="flex:none" onclick="setL('${k}')">${LN[k]}</button>`).join('')}</div>
+<div class="hero" style="margin-top:20px;text-align:center"><h2>${t('hero')}</h2><button class="b o" onclick="go('register')">${t('join')}</button></div>`};
+PG.market=()=>`<h2>🛒 ${t('market')}</h2><div class="box"><span class="mw"><input id="fq" placeholder="${t('search')}" value="${esc(F.q)}" oninput="F.q=this.value;upd()">${HV?`<button class="mic" onclick="mic('fq')">🎤</button>`:''}</span><div class="f">
+<label>${t('category')}<select oninput="F.cat=this.value;upd()"><option value="">${t('all')}</option>${CATS.map(c=>`<option value="${c}" ${F.cat==c?'selected':''}>${tv('c',c)}</option>`).join('')}</select></label>
+<label>${t('state')}<select id="xs" oninput="F.st=this.value;F.di='';fillD('xd',F.st,1);upd()"><option value="">${t('all')}</option>${Object.keys(ST).map(s=>`<option ${F.st==s?'selected':''}>${s}</option>`).join('')}</select></label>
+<label>${t('district')}<select id="xd" oninput="F.di=this.value;upd()"><option value="">${t('all')}</option>${(ST[F.st]||[]).map(d=>`<option ${F.di==d?'selected':''}>${d}</option>`).join('')}</select></label>
+<label>₹ min<input type="number" value="${F.min}" oninput="F.min=this.value;upd()"></label><label>₹ max<input type="number" value="${F.max}" oninput="F.max=this.value;upd()"></label><label>${t('qty')} ≥<input type="number" value="${F.qty}" oninput="F.qty=this.value;upd()"></label>
+<label>${t('sort')}<select oninput="F.sort=this.value;upd()"><option value="recent">${t('recent')}</option><option value="low" ${F.sort=='low'?'selected':''}>₹ ↑</option><option value="high" ${F.sort=='high'?'selected':''}>₹ ↓</option><option value="qty" ${F.sort=='qty'?'selected':''}>${t('qty')}</option></select></label></div><button class="b g2" onclick="F={q:'',cat:'',min:'',max:'',st:'',di:'',qty:'',sort:'recent'};render()">✕ ${t('clear')}</button></div><div id="res">${res()}</div>`;
+const prCard=r=>`<div class="box"><b>${r.e} ${nm(r.c)}</b> <small>· ${r.m}, ${r.d}</small><div class="pr">₹${(r.mn+r.mx)/2}<small> /${tv('u','Quintal')} (${t('avg')})</small></div><small>${t('min')} ₹${r.mn} · ${t('max')} ₹${r.mx} · ${t('demod')}</small></div>`;
+function prRes(){const a=PR.filter(r=>(!PF.q||(r.c+r.m+r.d).toLowerCase().includes(PF.q.toLowerCase()))&&(!PF.d||r.d===PF.d));const s=PR[PF.s]||PR[0],mxv=Math.max(...s.tr),mnv=Math.min(...s.tr),pts=s.tr.map((v,i)=>`${30+i*60},${100-(v-mnv)/(mxv-mnv||1)*80}`).join(' '),am=Math.max(...a.map(r=>(r.mn+r.mx)/2),1);
+return`<div class="box"><b>${s.e} ${nm(s.c)} — ${t('trend')}</b><svg viewBox="0 0 340 130" style="width:100%"><polyline points="${pts}" fill="none" stroke="#10b981" stroke-width="3"/>${s.tr.map((v,i)=>`<circle cx="${30+i*60}" cy="${100-(v-mnv)/(mxv-mnv||1)*80}" r="4" fill="#f08a24"/><text x="${30+i*60}" y="122" font-size="10" text-anchor="middle">W${i+1}</text><text x="${30+i*60}" y="${92-(v-mnv)/(mxv-mnv||1)*80}" font-size="9" text-anchor="middle">${v}</text>`).join('')}</svg></div><div class="grid">${a.map(r=>`<div onclick="PF.s=${PR.indexOf(r)};$('#pres').innerHTML=prRes();scrollTo(0,0)" style="cursor:pointer">${prCard(r)}<div class="bar" style="width:${(r.mn+r.mx)/2/am*100}%;margin:-8px 0 12px"></div></div>`).join('')}</div>`}
+PG.prices=()=>`<h2>💹 ${t('prices')}</h2><div class="note">⚠️ ${t('note')}</div><div class="f"><span class="mw"><input id="pq" placeholder="${t('search')}" oninput="PF.q=this.value;$('#pres').innerHTML=prRes()">${HV?`<button class="mic" onclick="mic('pq')">🎤</button>`:''}</span><select oninput="PF.d=this.value;$('#pres').innerHTML=prRes()"><option value="">${t('district')}: ${t('all')}</option>${[...new Set(PR.map(r=>r.d))].map(d=>`<option>${d}</option>`).join('')}</select></div><div id="pres">${prRes()}</div>`;
+PG.dash=()=>{if(!me||me.role!=='farmer')return gate();const m=DB.products.filter(p=>p.fid===me.id),e=DB.enq.filter(x=>x.fid===me.id);
+return`<h2>👋 ${t('welcome')}, ${esc(me.name)}</h2><div class="row"><button class="b o" style="font-size:1.1em;padding:16px" onclick="ed=null;IMG='';go('add')">➕ ${t('add')}</button><button class="b" style="font-size:1.1em;padding:16px" onclick="go('nearby')">🗺️ ${t('nearby')}</button></div>${easy?'':`<div class="stats"><div class="stat"><b>${m.filter(p=>p.avail!=='Sold').length}</b>${t('listings')}</div><div class="stat"><b>${e.length}</b>${t('enq')}</div><div class="stat"><b>${12+m.filter(p=>p.avail==='Sold').length}</b>${t('sold')}</div></div>`}
+<h3>${t('enq')}</h3>${e.length?e.map(x=>{const p=DB.products.find(q=>q.id===x.pid);return`<div class="box"><b>${esc(x.bn)}</b> → ${esc(p?pn(p):'')} · ${x.qty} ${p?tv('u',p.unit):''}<br><small>${esc(x.msg)} · ${ago(x.ts)}</small><br><span class="tag">${tv('s',x.status)}</span><div class="row"><button class="b g2" onclick="peer='${x.bid}';stat('${x.id}','Replied');go('msgs')">💬</button><button class="b" onclick="stat('${x.id}','Accepted')">✔</button><button class="b r" onclick="stat('${x.id}','Rejected')">✖</button></div></div>`}).join(''):`<div class="box">${t('none')}</div>`}
+<h3>${t('listings')}</h3><div class="grid">${m.map(p=>`<div>${card(p)}<div class="row" style="padding:0 12px 12px;background:#fff;margin-top:-6px;border-radius:0 0 18px 18px"><button class="b g2" onclick="editP('${p.id}')">✏️ ${t('edit')}</button><button class="b g2" onclick="soldP('${p.id}')">✅ ${t('sold')}</button><button class="b r" onclick="delP('${p.id}')">🗑</button></div></div>`).join('')}</div>`};
+let step=1;const showS=n=>{step=n;document.querySelectorAll('.st').forEach(e=>e.classList.toggle('on',e.dataset.s==n))};
+PG.add=()=>{if(!me||me.role!=='farmer')return gate();const p=ed||{name:'',cat:'Vegetables',qty:'',unit:'kg',price:'',date:new Date().toISOString().slice(0,10),grade:'A',state:me.state,district:me.district,village:me.village,desc:'',avail:'Available'};IMG=p.img||'';setTimeout(()=>showS(1));
+return`<h2>➕ ${t('add')}</h2><div class="box"><div class="st" data-s="1"><h3>1/3 ${t('product')}</h3>${inp('fn',t('product'),'text',p.name,1)}${sel('fc',t('category'),CATS,p.cat,'','c')}${inp('fq',t('qty'),'number',p.qty,1)}${sel('fu',t('unit'),UN,p.unit,'','u')}${inp('fp',t('price')+' ₹','number',p.price)}<button type="button" class="b" onclick="showS(2)">→</button></div>
+<div class="st" data-s="2"><h3>2/3 📍</h3>${locH('fl',p.state,p.district)}${inp('flv',t('village'),'text',p.village,1)}${inp('fh',t('harvest'),'date',p.date)}${sel('fg',t('grade'),['A','B','C'],p.grade)}${sel('fa',t('status'),['Available','Sold'],p.avail,'','s')}<button type="button" class="b g2" onclick="showS(1)">←</button> <button type="button" class="b" onclick="showS(3)">→</button></div>
+<div class="st" data-s="3"><h3>3/3 📷 ${t('photo')}</h3><input type="file" accept="image/*" onchange="pimg(this)"><div id="pv">${IMG?`<img class="pv" src="${IMG}">`:''}</div> <button type="button" id="dbtn" class="b o" onclick="aiDesc()">${t('improve')}</button><label>${t('desc')}<textarea id="fd" rows="3">${esc(p.desc)}</textarea></label><button type="button" class="b g2" onclick="showS(2)">←</button> <button type="button" class="b o" onclick="saveP()">✔ ${t('save')}</button></div></div>`};
+function pimg(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),s=Math.min(1,500/im.width);c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);IMG=c.toDataURL('image/jpeg',.7);$('#pv').innerHTML=`<img class="pv" src="${IMG}">`};im.src=r.result};r.readAsDataURL(f)}
+function saveP(){const v=i=>$('#'+i).value;if(!v('fn')||!v('fq')||!v('fp')){showS(1);return toast(t('v_req'))}const o={name:v('fn'),cat:v('fc'),qty:+v('fq'),unit:v('fu'),price:+v('fp'),date:v('fh'),grade:v('fg'),state:v('fls'),district:v('fld'),village:v('flv'),desc:v('fd'),avail:v('fa'),img:IMG};
+if(ed){Object.assign(ed,o)}else{const p={id:uid(),fid:me.id,ts:Date.now(),emoji:'🌱',...o};DB.products.unshift(p);DB.users.filter(u=>u.role==='buyer').forEach(b=>N(b.id,'n_list',o.name))}
+N(me.id,'n_saved',o.name);save();ed=null;toast('✅');go('dash')}
+const editP=id=>{ed=DB.products.find(p=>p.id===id);go('add')},delP=id=>{if(confirm(t('v_del'))){DB.products=DB.products.filter(p=>p.id!==id);save();render()}},soldP=id=>{const p=DB.products.find(x=>x.id===id);p.avail='Sold';N(me.id,'n_sold',p.name);save();render()};
+PG.msgs=()=>{if(!me)return gate();const my=DB.msgs.filter(m=>m.from===me.id||m.to===me.id),ps=[...new Set(my.map(m=>m.from===me.id?m.to:m.from))];if(!peer&&ps.length)peer=ps[0];
+const th=my.filter(m=>m.from===peer||m.to===peer);th.forEach(m=>{if(m.to===me.id)m.read=1});save();
+return`<h2>💬 ${t('msgs')}</h2>${ps.length?'':`<div class="box">${t('none')}</div>`}<div class="row">${ps.map(p=>{const un=my.filter(m=>m.from===p&&m.to===me.id&&!m.read).length;return`<button type="button" class="b ${p===peer?'':'g2'}" style="flex:none" onclick="peer='${p}';render()">${esc(U(p)?.name)}${un?`<span class="badge">${un}</span>`:''}</button>`}).join('')}</div>${peer?`<div class="box"><div class="chat">${th.map(m=>`<div class="m ${m.from===me.id?'me':''}">${esc(m.text)}${TM[m.id]?`<br><b>🌐 ${esc(TM[m.id])}</b>`:''}<small>${ago(m.ts)} · <a href="#msgs" onclick="trM('${m.id}');return false">🌐</a></small></div>`).join('')}</div><span class="mw"><input id="mt" placeholder="${t('message')}" onkeydown="if(event.key==='Enter')sendM()">${HV?`<button type="button" class="mic" onclick="mic('mt')">🎤</button>`:''}<button type="button" class="b g2" onclick="trD()">🌐</button><button type="button" class="b" onclick="sendM()">${t('send')}</button></span></div>`:''}`};
+const sendM=()=>{const v=$('#mt')?.value.trim();if(!v)return;DB.msgs.push({id:uid(),from:me.id,to:peer,text:v,ts:Date.now(),read:0});N(peer,'n_msg',me.name);save();render()};
+PG.notifs=()=>{if(!me)return gate();const n=DB.notifs.filter(x=>x.uid===me.id);return`<h2>🔔 ${t('notifs')}</h2><div class="row"><button type="button" class="b g2" onclick="DB.notifs.forEach(x=>x.uid===me.id&&(x.read=1));save();render()">✔ ${t('markread')}</button><button type="button" class="b r" onclick="DB.notifs=DB.notifs.filter(x=>x.uid!==me.id);save();render()">${t('clear')}</button></div>${n.length?n.map(x=>`<div class="box" style="${x.read?'opacity:.6':'border-left:5px solid var(--o)'}">${esc(x.k?T(x.k,x.a):x.text)}<br><small>${ago(x.ts)}</small></div>`).join(''):`<div class="box">${t('none')}</div>`}`};
+
+/* ===== BUYER LOCATION PROFILE & EDIT ===== */
+function buyerLocationEditor(u){
+  const shared=!!u.locShare,hasC=typeof u.lat==='number'&&typeof u.lng==='number'&&!Number.isNaN(u.lat)&&!Number.isNaN(u.lng);
+  return`<div class="box" id="buyerLocBox"><h3>📍 ${t('loc_profile')}</h3>
+  <div class="note">🔒 ${t('loc_privacy_note')}</div>
+  ${inp('pb_biz',t('biz'),'text',u.biz||'')}
+  ${sel('pb_type',t('btype'),BT,u.btype||'Retailer')}
+  ${locH('pb_l',u.state||'West Bengal',u.district||'Bardhaman')}
+  ${inp('pb_vil',t('village'),'text',u.village||'')}
+  ${inp('pb_addr',t('addr'),'text',u.addr||'')}
+  <div class="f">
+    ${inp('pb_lat',t('lat'),'number',hasC?u.lat:'','0','step="any" placeholder="23.2324"')}
+    ${inp('pb_lng',t('lng'),'number',hasC?u.lng:'','0','step="any" placeholder="87.0650"')}
+  </div>
+  <label class="chk"><input id="pb_share" type="checkbox" ${shared?'checked':''}><span>${t('share_loc_opt')}</span></label>
+  <div class="row">
+    <button type="button" class="b o sm" onclick="requestBuyerGps()">📍 ${t('use_my_loc')}</button>
+    <button type="button" class="b g2 sm" onclick="clearBuyerCoords()">✕ ${t('clear_loc')}</button>
+    <button type="button" class="b sm" onclick="saveBuyerProfile()">💾 ${t('save_loc')}</button>
+  </div>
+  <div id="gpsConfirmArea"></div>
+  </div>`;
+}
+function requestBuyerGps(){
+  if(!navigator.geolocation)return toast(t('gps_unavail'));
+  const exp=confirm(t('buyer_gps_explain'));
+  if(!exp)return;
+  toast('📍 ...');
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const lat=+pos.coords.latitude.toFixed(6),lng=+pos.coords.longitude.toFixed(6);
+    PENDING_LOC={lat,lng};
+    $('#gpsConfirmArea').innerHTML=`<div class="confirmBox"><b>${t('review_loc')}:</b> ${lat}, ${lng}<br><small>${t('confirm_loc_hint')}</small><div class="row"><button type="button" class="b sm" onclick="confirmPendingGps()">✔ ${t('confirm_loc')}</button><button type="button" class="b g2 sm" onclick="PENDING_LOC=null;$('#gpsConfirmArea').innerHTML=''">✕ ${t('cancel')}</button></div></div>`;
+  },()=>toast(t('gps_denied')),{enableHighAccuracy:false,timeout:12000});
+}
+function confirmPendingGps(){if(!PENDING_LOC)return;if($('#pb_lat'))$('#pb_lat').value=PENDING_LOC.lat;if($('#pb_lng'))$('#pb_lng').value=PENDING_LOC.lng;if($('#pb_share'))$('#pb_share').checked=true;PENDING_LOC=null;$('#gpsConfirmArea').innerHTML=`<small>✅ ${t('loc_ready_save')}</small>`}
+function clearBuyerCoords(){if($('#pb_lat'))$('#pb_lat').value='';if($('#pb_lng'))$('#pb_lng').value='';if($('#pb_share'))$('#pb_share').checked=false;PENDING_LOC=null;if($('#gpsConfirmArea'))$('#gpsConfirmArea').innerHTML='';toast(t('loc_cleared'))}
+function saveBuyerProfile(){if(!me||me.role!=='buyer')return;const latV=$('#pb_lat').value.trim(),lngV=$('#pb_lng').value.trim(),share=$('#pb_share').checked;
+  if(share&&(!latV||!lngV||Number.isNaN(+latV)||Number.isNaN(+lngV)))return toast(t('need_coords_share'));
+  me.biz=$('#pb_biz').value.trim();me.btype=$('#pb_type').value;me.state=$('#pb_ls').value;me.district=$('#pb_ld').value;me.village=$('#pb_vil').value.trim();me.addr=$('#pb_addr').value.trim();
+  me.lat=latV!==''&&!Number.isNaN(+latV)?+latV:null;me.lng=lngV!==''&&!Number.isNaN(+lngV)?+lngV:null;me.locShare=share?1:0;
+  save();toast('✅ '+t('saved'));render()}
+
+PG.profile=()=>{if(!me)return gate();return`<h2>👤 ${t('profile')}</h2><div class="box"><b style="font-size:1.3em">${esc(me.name)}</b> <span class="tag">${t(me.role)}</span>${me.demo?' <span class="tag sold">Demo</span>':''}<p>📞 ${esc(me.mobile)}<br>📍 ${esc([me.addr,me.village,me.district,me.state].filter(Boolean).join(', '))}<br>${esc(me.farm||me.biz||'')} ${me.btype?'· '+esc(me.btype):''}${me.role==='buyer'?`<br><small>${t('loc_vis_status')}: <b>${me.locShare?t('loc_visible'):t('loc_hidden')}</b>${hasCoords(me)?` (${me.lat}, ${me.lng})`:''}</small>`:''}</p><button type="button" class="b r" onclick="logout()">${t('logout')}</button></div>${me.role==='buyer'?buyerLocationEditor(me):''}`};
+PG.login=()=>`<h2>🔑 ${t('login')}</h2><div class="box">${inp('lm',t('mobile'),'tel')}${inp('lp',t('pass'),'password')}<div class="row"><button type="button" class="b" onclick="login()">${t('login')}</button><button type="button" class="b g2" onclick="go('register')">${t('register')}</button></div></div><div class="row"><button type="button" class="b o" onclick="doLogin('f1')">👨‍🌾 ${t('demoF')}</button><button type="button" class="b o" onclick="doLogin('b1')">🛒 ${t('demoB')}</button></div><div class="note">${t('protonote')}</div>`;
+PG.register=()=>`<h2>📝 ${t('register')}</h2><div class="box">${inp('rn',t('name'),'text','',1)}${inp('rm',t('mobile'),'tel')}${inp('rp',t('pass'),'password')}${sel('rr',t('role'),['farmer','buyer'],'farmer',`onchange="$('#xf').style.display=this.value=='farmer'?'block':'none';$('#xb').style.display=this.value=='buyer'?'block':'none'"`,'t')}${locH('rl','West Bengal','Bardhaman')}${inp('rv',t('village'),'text','',1)}<div id="xf">${inp('rf',t('farm'),'text','',1)}</div><div id="xb" style="display:none">${inp('rb',t('biz'),'text','',1)}${sel('rt',t('btype'),BT)}${inp('raddr',t('addr'),'text','',0,`placeholder="${esc(t('addr_ph'))}"`)}<div class="f">${inp('rlat',t('lat'),'number','','0','step="any"')}${inp('rlng',t('lng'),'number','','0','step="any"')}</div><label class="chk"><input id="rshare" type="checkbox"><span>${t('share_loc_opt')}</span></label><small>${t('loc_privacy_note')}</small></div><button type="button" class="b" onclick="reg()">${t('register')}</button></div>`;
+function reg(){const v=i=>$('#'+i).value.trim();if(!v('rn')||!v('rm')||!v('rp'))return toast(t('v_reg'));if(DB.users.some(u=>u.mobile===v('rm')))return toast(t('v_dup'));const isB=v('rr')==='buyer',latRaw=v('rlat'),lngRaw=v('rlng'),sh=isB&&$('#rshare')?.checked;if(sh&&(!latRaw||!lngRaw||Number.isNaN(+latRaw)||Number.isNaN(+lngRaw)))return toast(t('need_coords_share'));const u={id:uid(),name:v('rn'),mobile:v('rm'),pass:v('rp'),role:v('rr'),state:v('rls'),district:v('rld'),village:v('rv'),farm:v('rf'),biz:v('rb'),btype:v('rt'),addr:v('raddr'),lat:isB&&latRaw!==''&&!Number.isNaN(+latRaw)?+latRaw:null,lng:isB&&lngRaw!==''&&!Number.isNaN(+lngRaw)?+lngRaw:null,locShare:sh?1:0,lang};DB.users.push(u);save();doLogin(u.id)}
+const login=()=>{const u=DB.users.find(x=>x.mobile===$('#lm').value.trim()&&x.pass===$('#lp').value);u?doLogin(u.id):toast('❌ '+t('v_cred'))};
+const doLogin=id=>{S('fmc4_me',id);me=U(id);go(me.role==='farmer'?'dash':'market')},logout=()=>{localStorage.removeItem('fmc4_me');me=null;go('home')};
+
+/* ===== NEARBY BUYERS PAGE & LEAFLET MAP ===== */
+function filteredBuyers(){
+  const buyers=DB.users.filter(u=>u.role==='buyer'&&u.locShare);
+  const enriched=buyers.map(b=>{
+    const dist=F_LOC&&hasCoords(b)?havKm(F_LOC.lat,F_LOC.lng,b.lat,b.lng):null;
+    return{...b,dist};
+  });
+  const list=enriched.filter(b=>{
+    const hay=[b.name,b.biz,b.btype,b.village,b.district,b.state,b.addr].filter(Boolean).join(' ').toLowerCase();
+    if(NF.q&&!hay.includes(NF.q.toLowerCase()))return false;
+    if(NF.st&&b.state!==NF.st)return false;
+    if(NF.di&&b.district!==NF.di)return false;
+    if(NF.btype&&b.btype!==NF.btype)return false;
+    if(NF.maxKm){if(b.dist===null||b.dist>+NF.maxKm)return false}
+    return true;
+  });
+  if(F_LOC){
+    list.sort((a,b)=>{
+      if(a.dist!==null&&b.dist!==null)return a.dist-b.dist;
+      if(a.dist!==null)return -1;
+      if(b.dist!==null)return 1;
+      return(a.district||'').localeCompare(b.district||'');
+    });
+  }
+  return list;
+}
+function buyerCardHtml(b){
+  const prox=b.dist!==null?`📏 ${fmtDist(b.dist)}`:`📍 ${esc([b.district,b.state].filter(Boolean).join(', '))}`;
+  return`<div class="card"><div class="cb">
+    <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start">
+      <b>🏪 ${esc(b.biz||b.name)}</b>
+      <span class="tag info">${esc(b.btype||'Buyer')}</span>
+    </div>
+    <small>👤 ${esc(b.name)} ${b.demo?`· <b>${t('demoacc')}</b>`:''}</small>
+    <small>📍 ${esc([b.addr,b.village,b.district,b.state].filter(Boolean).join(', '))}</small>
+    <div style="font-weight:700;color:var(--g)">${prox}</div>
+    <div class="row">
+      <a class="b g2 sm" target="_blank" rel="noopener" href="${gmapsSearchUrl(b)}">🗺️ ${t('view_gmaps')}</a>
+      <a class="b g2 sm" target="_blank" rel="noopener" href="${gmapsDirUrl(b)}">🧭 ${t('get_dir')}</a>
+    </div>
+    <div class="row">
+      <button type="button" class="b sm" onclick="contactBuyer('${b.id}')">💬 ${t('contact_buyer')}</button>
+      <button type="button" class="b o sm" onclick="enquireBuyer('${b.id}')">📨 ${t('send_enq')}</button>
+    </div>
+    <button type="button" class="b g2 sm" onclick="openBuyerModal('${b.id}')">${t('details')}</button>
+  </div></div>`;
+}
+function renderNearbyMap(list){
+  const mapEl=$('#buyerMap');if(!mapEl)return;
+  if(NVIEW!=='map'){mapEl.style.display='none';return}
+  mapEl.style.display='block';
+  if(!window.L){mapEl.innerHTML=`<div style="padding:16px">${t('map_offline_note')}</div>`;return}
+  if(!MAP_INST){
+    MAP_INST=L.map('buyerMap').setView([23.05,87.55],8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(MAP_INST);
+    MAP_LAYER=L.layerGroup().addTo(MAP_INST);
+  }
+  MAP_LAYER.clearLayers();
+  const bounds=[];
+  list.filter(hasCoords).forEach(b=>{
+    bounds.push([b.lat,b.lng]);
+    const popupHtml=`<div style="min-width:190px"><b>🏪 ${esc(b.biz||b.name)}</b><br><small>${esc(b.name)} · ${esc(b.btype||'')}</small><br><small>📍 ${esc([b.village,b.district,b.state].filter(Boolean).join(', '))}</small>${b.dist!==null?`<br><b>📏 ${fmtDist(b.dist)}</b>`:''}<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><a target="_blank" rel="noopener" href="${gmapsSearchUrl(b)}">Google Maps</a> · <a target="_blank" rel="noopener" href="${gmapsDirUrl(b)}">${t('get_dir')}</a></div><div style="margin-top:6px;display:flex;gap:4px"><button type="button" onclick="contactBuyer('${b.id}')">💬 ${t('contact_buyer')}</button><button type="button" onclick="enquireBuyer('${b.id}')">📨</button></div></div>`;
+    L.marker([b.lat,b.lng]).addTo(MAP_LAYER).bindPopup(popupHtml);
+  });
+  if(F_LOC){
+    bounds.push([F_LOC.lat,F_LOC.lng]);
+    L.circleMarker([F_LOC.lat,F_LOC.lng],{radius:8,color:'#0f5132',fillColor:'#10b981',fillOpacity:.9}).addTo(MAP_LAYER).bindPopup(`<b>👨‍🌾 ${t('your_loc')}</b>`);
+  }
+  if(bounds.length)MAP_INST.fitBounds(bounds,{padding:[30,30],maxZoom:12});
+  setTimeout(()=>{if(MAP_INST)MAP_INST.invalidateSize()},80);
+}
+function renderNearby(){
+  const list=filteredBuyers(),wrap=$('#nearbyResults');
+  if(!wrap)return;
+  wrap.innerHTML=list.length?`<div class="grid">${list.map(buyerCardHtml).join('')}</div>`:`<div class="box">🗺️ ${t('no_buyers_match')}</div>`;
+  renderNearbyMap(list);
+}
+function findBuyersNearMe(){
+  if(!navigator.geolocation){toast(t('gps_unavail'));return}
+  const ok=confirm(t('farmer_gps_explain'));
+  if(!ok)return;
+  toast('📍 ...');
+  navigator.geolocation.getCurrentPosition(pos=>{
+    F_LOC={lat:pos.coords.latitude,lng:pos.coords.longitude};
+    toast('✅ '+t('loc_found'));
+    renderNearby();
+  },()=>{
+    toast(t('gps_denied_fallback'));
+    if(!NF.st&&me?.state)NF.st=me.state;
+    if(!NF.di&&me?.district)NF.di=me.district;
+    render();
+  },{enableHighAccuracy:false,timeout:12000});
+}
+PG.nearby=()=>{
+  setTimeout(()=>renderNearby(),0);
+  return`<h2>🗺️ ${t('nearby')}</h2>
+  <div class="note">ℹ️ ${t('nearby_demo_note')}</div>
+  <div class="box">
+    <div class="row">
+      <button type="button" class="b o" onclick="findBuyersNearMe()">📍 ${t('find_near_me')}</button>
+      <button type="button" class="b ${NVIEW==='map'?'':'g2'}" style="flex:none" onclick="NVIEW='map';render()">🗺️ ${t('map_view')}</button>
+      <button type="button" class="b ${NVIEW==='list'?'':'g2'}" style="flex:none" onclick="NVIEW='list';render()">📋 ${t('list_view')}</button>
+    </div>
+    <p id="gpsStatusLine"><small>${F_LOC?`✅ ${t('your_loc')}: ${F_LOC.lat.toFixed(4)}, ${F_LOC.lng.toFixed(4)}`:t('manual_loc_hint')}</small></p>
+    <span class="mw"><input id="nfq" placeholder="${t('search_buyer')}" value="${esc(NF.q)}" oninput="NF.q=this.value;renderNearby()">${HV?`<button class="mic" onclick="mic('nfq')">🎤</button>`:''}</span>
+    <div class="f">
+      <label>${t('state')}<select id="nfs" onchange="NF.st=this.value;NF.di='';fillD('nfd',NF.st,1);renderNearby()"><option value="">${t('all')}</option>${Object.keys(ST).map(s=>`<option ${NF.st==s?'selected':''}>${s}</option>`).join('')}</select></label>
+      <label>${t('district')}<select id="nfd" onchange="NF.di=this.value;renderNearby()"><option value="">${t('all')}</option>${(ST[NF.st]||[]).map(d=>`<option ${NF.di==d?'selected':''}>${d}</option>`).join('')}</select></label>
+      <label>${t('btype')}<select onchange="NF.btype=this.value;renderNearby()"><option value="">${t('all')}</option>${BT.map(bt=>`<option value="${esc(bt)}" ${NF.btype==bt?'selected':''}>${esc(bt)}</option>`).join('')}</select></label>
+      <label>${t('max_dist')}<select onchange="NF.maxKm=this.value;renderNearby()"><option value="">${t('all')}</option><option value="10" ${NF.maxKm=='10'?'selected':''}>10 ${t('km')}</option><option value="25" ${NF.maxKm=='25'?'selected':''}>25 ${t('km')}</option><option value="50" ${NF.maxKm=='50'?'selected':''}>50 ${t('km')}</option><option value="150" ${NF.maxKm=='150'?'selected':''}>150 ${t('km')}</option></select></label>
+    </div>
+    <button type="button" class="b g2 sm" onclick="NF={q:'',st:'',di:'',btype:'',maxKm:''};F_LOC=null;render()">✕ ${t('clear')}</button>
+  </div>
+  <div id="buyerMap"></div>
+  <div id="nearbyResults"></div>`;
+};
+
+/* ===== SHELL ===== */
+const go=p=>{if(location.hash==='#'+p)render();else location.hash=p;scrollTo(0,0)};
+const setL=l=>{lang=l;S('fmc4_lang',l);render()};
+function navItems(){const r=me?.role,n=[['home','🏠']];if(r==='farmer')n.push(['dash','📊'],['add','➕']);n.push(['market','🛒'],['nearby','🗺️'],['ai','🤖']);if(!easy)n.push(['prices','💹']);if(me)n.push(['msgs','💬'],['profile','👤']);else n.push(['login','🔑']);return n}
+function render(){const pg=(location.hash||'#home').slice(1);if(pg!=='nearby'&&MAP_INST){MAP_INST.remove();MAP_INST=null;MAP_LAYER=null}const un=me?DB.notifs.filter(x=>x.uid===me.id&&!x.read).length:0,um=me?DB.msgs.filter(x=>x.to===me.id&&!x.read).length:0;
+const nv=navItems().map(([k,i])=>`<a href="#${k}" class="${pg===k?'on':''}"><span>${i}</span>${t(k)}${k==='msgs'&&um?`<span class="badge">${um}</span>`:''}</a>`).join('');
+document.body.className=easy?'easy':'';document.title=t('app');$('#app').innerHTML=`<header><div class="logo" onclick="go('home')">${logo}<span>${t('app')}<br><small style="color:#bfe;font-weight:400;font-size:.65em">${t('tag')}</small></span></div><select onchange="setL(this.value)">${Object.keys(LN).map(k=>`<option value="${k}" ${k===lang?'selected':''}>${LN[k]}</option>`).join('')}</select><button onclick="easy=!easy;S('fmc4_easy',easy);render()">${easy?'✅':'⬜'} ${t('easy')}</button><button onclick="go('notifs')">🔔${un?`<span class="badge">${un}</span>`:''}</button></header><nav class="side">${nv}</nav><main>${(PG[pg]||PG.home)()}</main><nav class="bot">${nv}</nav>`}
+/* ===== i18n extension + Gemini ===== */
+const X=(ks,o)=>{ks=ks.split(' ');ks.forEach(k=>{if(!K.includes(k))K.push(k)});for(const l in o){const a=o[l].split('|');ks.forEach((k,j)=>{if(a[j])TR[l][K.indexOf(k)]=a[j]})}};
+X('app tag ai nearby',{
+  en:'Farmer Market Connect|From Farm to Market. Directly.|Krishi AI|Nearby Buyers',
+  hi:'किसान बाजार कनेक्ट|खेत से बाज़ार तक, सीधे।|कृषि सहायक|आसपास के खरीदार',
+  bn:'কৃষক বাজার সংযোগ|খামার থেকে বাজারে, সরাসরি।|কৃষি সহায়ক|কাছাকাছি ক্রেতা',
+  mr:'शेतकरी बाजार जोडणी|शेतातून थेट बाजारात.|कृषी सहायक|जवळपासचे खरेदीदार',
+  pa:'ਕਿਸਾਨ ਮਾਰਕੀਟ ਸੰਪਰਕ|ਖੇਤ ਤੋਂ ਮੰਡੀ ਤੱਕ, ਸਿੱਧਾ।|ਖੇਤੀ ਸਹਾਇਕ|ਨੇੜਲੇ ਖਰੀਦਦਾਰ',
+  gu:'ખેડૂત બજાર જોડાણ|ખેતરથી બજાર સુધી, સીધું.|ખેતી સહાયક|નજીકના ખરીદદારો',
+  ta:'விவசாயி சந்தை இணைப்பு|வயலிலிருந்து சந்தைக்கு, நேரடியாக.|விவசாய உதவியாளர்|அருகிலுள்ள வாங்குபவர்கள்',
+  te:'రైతు మార్కెట్ అనుసంధానం|పొలం నుండి మార్కెట్‌కు, నేరుగా.|వ్యవసాయ సహాయకుడు|సమీప కొనుగోలుదారులు',
+  kn:'ರೈತ ಮಾರುಕಟ್ಟೆ ಸಂಪರ್ಕ|ಹೊಲದಿಂದ ಮಾರುಕಟ್ಟೆಗೆ, ನೇರವಾಗಿ.|ಕೃಷಿ ಸಹಾಯಕ|ಹತ್ತಿರದ ಖರೀದಿದಾರರು',
+  ml:'കർഷക വിപണി ബന്ധം|പാടത്തുനിന്ന് വിപണിയിലേക്ക്, നേരിട്ട്.|കൃഷി സഹായി|അടുത്തുള്ള വാങ്ങുന്നവർ',
+  or:'କୃଷକ ବଜାର ସଂଯୋଗ|ଚାଷ ଜମିରୁ ବଜାରକୁ, ସିଧାସଳଖ।|କୃଷି ସହାୟକ|ନିକଟସ୍ଥ କ୍ରେତା'
+});
+X('c_Vegetables c_Fruits c_Grains c_Rice c_Wheat c_Pulses c_Oilseeds c_Spices c_Flowers c_Dairy c_Other',{en:'Vegetables|Fruits|Grains|Rice|Wheat|Pulses|Oilseeds|Spices|Flowers|Dairy|Other',hi:'सब्ज़ियाँ|फल|अनाज|चावल|गेहूँ|दालें|तिलहन|मसाले|फूल|डेयरी|अन्य',bn:'সবজি|ফল|শস্য|চাল|গম|ডাল|তৈলবীজ|মশলা|ফুল|দুগ্ধজাত|অন্যান্য',mr:'भाजीपाला|फळे|धान्य|तांदूळ|गहू|डाळी|तेलबिया|मसाले|फुले|दुग्धजन्य|इतर'});
+X('u_kg u_Quintal u_Ton u_Piece u_Bag',{en:'kg|Quintal|Ton|Piece|Bag',hi:'किलो|क्विंटल|टन|नग|बोरी',bn:'কেজি|কুইন্টাল|টন|পিস|বস্তা',mr:'किलो|क्विंटल|टन|नग|पोते'});
+X('s_New s_Replied s_Accepted s_Rejected s_Available s_Sold',{en:'New|Replied|Accepted|Rejected|Available|Sold',hi:'नया|उत्तर दिया|स्वीकृत|अस्वीकृत|उपलब्ध|बिक गया',bn:'নতুন|উত্তর দেওয়া হয়েছে|গৃহীত|প্রত্যাখ্যাত|উপলব্ধ|বিক্রিত',mr:'नवीन|उत्तर दिले|स्वीकारले|नाकारले|उपलब्ध|विकले'});
+const NMS=['Basmati Rice','Potato','Tomato','Onion','Mustard Seeds','Wheat','Green Chilli','Brinjal','Cauliflower','Mango (Langra)','Banana','Masoor Dal','Turmeric','Cabbage','Fresh Vegetables Mix','Sharbati Wheat','Rice','Mustard','Mango','Soybean'],nk=n=>'nm_'+n.replace(/\W+/g,'_');
+X(NMS.map(nk).join(' '),{en:NMS.join('|'),hi:'बासमती चावल|आलू|टमाटर|प्याज़|सरसों|गेहूँ|हरी मिर्च|बैंगन|फूलगोभी|आम (लंगड़ा)|केला|मसूर दाल|हल्दी|पत्तागोभी|ताज़ी सब्ज़ियाँ|शरबती गेहूँ|चावल|सरसों|आम|सोयाबीन',bn:'বাসমতি চাল|আলু|টমেটো|পেঁয়াজ|সরষে|গম|কাঁচা লংকা|বেগুন|ফুলকপি|আম (ল্যাংড়া)|কলা|মসুর ডাল|হলুদ|বাঁধাকপি|তাজা সবজি|শরবতী গম|চাল|সরষে|আম|সয়াবিন',mr:'बासमती तांदूळ|बटाटा|टोमॅटो|कांदा|मोहरी|गहू|हिरवी मिरची|वांगे|फुलकोबी|आंबा (लंगडा)|केळी|मसूर डाळ|हळद|कोबी|ताजा भाजीपाला|शरবती गहू|तांदूळ|मोहरी|आंबा|सोयाबीन'});
+X('aiset aikey model test rmkey askph clearchat retry nokey aiwarn connected improve trl sp1 sp2 sp3 sp4 sp5 sp6 filltr desc review e_key e_quota e_model e_net e_empty e_timeout e_gen v_login v_req v_del v_cred v_dup v_reg v_qty v_buyer markread harvest grade sort recent farm biz btype demostat protonote demoacc n_enq n_msg n_list n_saved n_sold n_stat trend avg min max demod',{
+en:'AI Settings|Gemini API key|Model|Test connection|Remove key|Ask a question...|Clear chat|Retry|Please set up your Gemini API key in AI Settings first.|Your API key is stored locally in this browser. Do not use this prototype with a public/shared computer or publish this file containing your key.|Connected|✨ Improve description with AI|Translate|How can I grow potatoes?|Why are my leaves turning yellow?|How can I improve my soil?|When should I harvest my crop?|How can I sell my products?|Help me write a product listing.|Complete this language with Gemini (AI-generated; check accuracy)|Description|Review the translation, then press Send|Invalid API key. Check it in AI Settings.|Quota or rate limit reached. Please wait a minute and retry.|This model is not available. Choose another in AI Settings.|Network error. Check your internet and retry.|Empty reply from AI. Please retry.|The AI took too long. Please retry.|AI error:|Login first|Name, quantity and price are required|Delete this item?|Wrong mobile or password|Mobile already registered|Name, mobile and password are required|Enter quantity|Login as Buyer to send an enquiry|Mark all read|Harvest date|Grade|Sort|Recent|Farm name|Business name|Buyer type|Demo statistics|Prototype login (stored in this browser). Not production-secure.|Demo account|New enquiry for {0} from {1}|New message from {0}|New listing: {0}|Product saved: {0}|{0} marked sold|Your enquiry is {0}|trend (6 weeks)|avg|Min|Max|Demo data',
+hi:'AI सेटिंग्स|Gemini API कुंजी|मॉडल|कनेक्शन जाँचें|कुंजी हटाएँ|सवाल पूछें...|चैट साफ़ करें|फिर कोशिश करें|कृपया पहले AI सेटिंग्स में अपनी Gemini API कुंजी डालें।|आपकी API कुंजी इसी ब्राउज़र में सुरक्षित रहती है। इस प्रोटोटाइप को सार्वजनिक/साझा कंप्यूटर पर इस्तेमाल न करें और कुंजी वाली फ़ाइल प्रकाशित न करें।|जुड़ा हुआ|✨ AI से विवरण सुधारें|अनुवाद करें|आलू कैसे उगाएँ?|मेरे पत्ते पीले क्यों हो रहे हैं?|मिट्टी कैसे सुधारूँ?|फसल कब काटनी चाहिए?|अपना उत्पाद कैसे बेचूँ?|उत्पाद की लिस्टिंग लिखने में मदद करें।',
+bn:'AI সেটিংস|Gemini API কী|মডেল|সংযোগ পরীক্ষা|কী মুছুন|প্রশ্ন করুন...|চ্যাট মুছুন|আবার চেষ্টা|আগে AI সেটিংসে আপনার Gemini API কী দিন।|আপনার API কী এই ব্রাউজারেই জমা থাকে। এই প্রোটোটাইপ পাবলিক/শেয়ার্ড কম্পিউটারে ব্যবহার করবেন না এবং কী-সহ ফাইল প্রকাশ করবেন না।|সংযুক্ত|✨ AI দিয়ে বিবরণ উন্নত করুন|অনুবাদ|আলু কীভাবে চাষ করব?|আমার পাতা হলুদ হচ্ছে কেন?|মাটির উন্নতি কীভাবে করব?|ফসল কখন কাটব?|আমার পণ্য কীভাবে বিক্রি করব?|পণ্যের তালিকা লিখতে সাহায্য করুন।',
+mr:'AI सेटिंग्ज|Gemini API की|मॉडेल|कनेक्शन तपासा|की काढा|प्रश्न विचारा...|चॅट साफ करा|पुन्हा प्रयत्न करा|कृपया आधी AI सेटिंग्जमध्ये Gemini API की भरा.|तुमची API की याच ब्राउझरमध्ये साठवली जाते. हा प्रोटोटाइप सार्वजनिक/सामायिक संगणकावर वापरू नका आणि की असलेली फाइल प्रकाशित करू नका.|जोडलेले|✨ AI ने वर्णन सुधारा|भाषांतर करा|बटाटे कसे पिकवावे?|माझी पाने पिवळी का होत आहेत?|माती कशी सुधारावी?|पीक कधी काढावे?|माझे उत्पादन कसे विकावे?|उत्पादनाची यादी लिहायला मदत करा.'});
+X('find_near_me map_view list_view search_buyer max_dist km meters view_gmaps get_dir contact_buyer send_enq send_enq_to addr addr_ph lat lng share_loc_opt use_my_loc clear_loc save_loc loc_profile loc_privacy_note buyer_gps_explain farmer_gps_explain review_loc confirm_loc_hint confirm_loc cancel loc_ready_save loc_cleared need_coords_share loc_vis_status loc_visible loc_hidden nearby_demo_note manual_loc_hint your_loc loc_found gps_unavail gps_denied gps_denied_fallback no_buyers_match map_offline_note location dist saved',{
+  en:'Find Buyers Near Me|Map View|List View|Search buyer name or place...|Max distance|km|m|View on Google Maps|Get Directions|Contact Buyer|Send Enquiry|Send Enquiry to|Shop / Business Address|Street, market area, landmark|Latitude (optional)|Longitude (optional)|Share my approximate business location with farmers|Use My Current Location|Clear Location|Save Location|Buyer Location Profile|Location sharing is optional and off unless enabled. Only approximate business/market details you choose to share are shown to farmers—never secret tracking.|Requesting your device GPS will read your current coordinates so you can review and confirm them before saving. Continue?|Requesting your location helps sort nearby buyers by distance. If denied, you can still filter by state and district.|Review detected coordinates|Confirm these coordinates before saving|Confirm Location|Cancel|Coordinates filled. Click Save Location to store.|Location cleared|Enter valid latitude and longitude to share location|Location visibility|Visible to farmers|Hidden|Demo accounts use approximate business-area coordinates for illustration only.|Use Find Buyers Near Me or select a state/district below.|Your approximate location|Location detected|Geolocation is not supported in this browser|Location permission was not granted|Location permission denied. Showing results by state/district filter.|No buyers match your current filters.|Map tiles could not load offline; use List View or Google Maps links above.|Location|Distance|Saved',
+  bn:'আমার কাছের ক্রেতা খুঁজুন|ম্যাপ ভিউ|লিস্ট ভিউ|ক্রেতার নাম বা জায়গা খুঁজুন...|সর্বোচ্চ দূরত্ব|কিমি|মি|Google Maps-এ দেখুন|দিকনির্দেশ পান|ক্রেতার সাথে যোগাযোগ|জিজ্ঞাসা পাঠান|জিজ্ঞাসা পাঠান —|দোকান / ব্যবসার ঠিকানা|বাজার এলাকা বা ল্যান্ডমার্ক|অক্ষাংশ (ঐচ্ছিক)|দ্রাঘিমাংশ (ঐচ্ছিক)|কৃষকদের সাথে আনুমানিক ব্যবসার অবস্থান শেয়ার করুন|আমার বর্তমান অবস্থান ব্যবহার করুন|অবস্থান মুছুন|অবস্থান সংরক্ষণ করুন|ক্রেতার অবস্থান প্রোফাইল|অবস্থান শেয়ার করা ঐচ্ছিক এবং অনুমতি ছাড়া চালু হয় না। গোপন ট্র্যাকিং করা হয় না; আপনি যা শেয়ার করবেন তাই দেখানো হবে।|আপনার বর্তমান স্থানাঙ্ক নিয়ে সংরক্ষণের আগে যাচাই করতে দেওয়া হবে। এগিয়ে যাবেন?|আপনার অবস্থান জানালে দূরত্ব অনুযায়ী কাছাকাছি ক্রেতা সাজানো যাবে। অনুমতি না দিলে রাজ্য ও জেলা দিয়ে ফিল্টার করা যাবে।|শনাক্ত করা স্থানাঙ্ক যাচাই করুন|সংরক্ষণের আগে স্থানাঙ্ক নিশ্চিত করুন|অবস্থান নিশ্চিত করুন|বাতিল|স্থানাঙ্ক বসানো হয়েছে। সেভ করতে Save Location চাপুন।|অবস্থান মোছা হয়েছে|অবস্থান শেয়ার করতে সঠিক অক্ষাংশ ও দ্রাঘিমাংশ দিন|অবস্থানের দৃশ্যমানতা|কৃষকদের কাছে দৃশ্যমান|লুকানো|ডেমো অ্যাকাউন্টে শুধু প্রদর্শনের জন্য আনুমানিক বাজার এলাকার স্থানাঙ্ক ব্যবহার করা হয়েছে।|নিচের রাজ্য/জেলা ফিল্টার বা Find Buyers Near Me ব্যবহার করুন।|আপনার আনুমানিক অবস্থান|অবস্থান পাওয়া গেছে|এই ব্রাউজারে GPS সমর্থিত নয়|অবস্থানের অনুমতি দেওয়া হয়নি|অনুমতি না দেওয়ায় রাজ্য/জেলা ফিল্টার দেখানো হচ্ছে।|বর্তমান ফিল্টারে কোনো ক্রেতা পাওয়া যায়নি।|ম্যাপ লোড না হলে লিস্ট ভিউ বা Google Maps লিংক ব্যবহার করুন।|অবস্থান|দূরত্ব|সংরক্ষিত',
+  hi:'मेरे पास खरीदार खोजें|मैप व्यू|लिस्ट व्यू|खरीदार का नाम या जगह खोजें...|अधिकतम दूरी|किमी|मी|Google Maps पर देखें|दिशा-निर्देश लें|खरीदार से संपर्क|पूछताछ भेजें|पूछताछ भेजें —|दुकान / व्यापार का पता|बाज़ार क्षेत्र या लैंडमार्क|अक्षांश (वैकल्पिक)|देशांतर (वैकल्पिक)|किसानों के साथ अनुमानित व्यापार स्थान साझा करें|मेरा वर्तमान स्थान उपयोग करें|स्थान हटाएँ|स्थान सहेजें|खरीदार स्थान प्रोफ़ाइल|स्थान साझा करना वैकल्पिक है और अनुमति के बिना चालू नहीं होता। कोई गुप्त ट्रैकिंग नहीं होती।|आपका वर्तमान स्थान लेकर सहेजने से पहले समीक्षा करने का विकल्प दिया जाएगा। जारी रखें?|स्थान मिलने से नज़दीकी खरीदार दूरी के अनुसार दिखेंगे। अनुमति न मिलने पर राज्य और ज़िले से खोजा जा सकेगा।|मिला स्थान जाँचें|सहेजने से पहले स्थान की पुष्टि करें|स्थान की पुष्टि करें|रद्द करें|स्थान भर दिया गया है। सहेजने के लिए Save Location दबाएँ।|स्थान हटाया गया|स्थान साझा करने के लिए सही अक्षांश और देशांतर दर्ज करें|स्थान दृश्यता|किसानों को दिख रहा है|छिपा हुआ|डेमो खातों में केवल प्रदर्शन के लिए अनुमानित बाज़ार क्षेत्र के निर्देशांक दिए गए हैं।|नीचे राज्य/ज़िला चुनें या Find Buyers Near Me दबाएँ।|आपका अनुमानित स्थान|स्थान मिल गया|इस ब्राउज़र में जियोलोकेशन उपलब्ध नहीं है|स्थान की अनुमति नहीं मिली|अनुमति न मिलने पर राज्य/ज़िला फ़िल्टर से खोजें।|फ़िल्टर के अनुसार कोई खरीदार नहीं मिला।|ऑफ़लाइन होने पर लिस्ट व्यू या Google Maps लिंक का उपयोग करें।|स्थान|दूरी|सहेजा गया'
+});
+const tv=(g,v)=>{const k=g+'_'+v;return K.includes(k)?t(k):v},nm=n=>{const k=nk(n);return K.includes(k)?t(k):n},pn=p=>/^p\d+$/.test(p.id)?nm(p.name):p.name;
+const T=(k,a=[])=>t(k).replace(/\{(\d)\}/g,(_,i)=>{const v=a[i];return K.includes('s_'+v)?t('s_'+v):v});
+const applyTr=()=>{for(const l in TR){const s=L('fmc4_tr_'+l);if(s)for(const k in s){const i=K.indexOf(k);if(i>=0&&!TR[l][i])TR[l][i]=s[k]}}};applyTr();
+const LNE={en:'English',hi:'Hindi',bn:'Bengali',mr:'Marathi',pa:'Punjabi',gu:'Gujarati',ta:'Tamil',te:'Telugu',kn:'Kannada',ml:'Malayalam',or:'Odia'};
+const FALLBACK_MODELS=['gemini-3.5-flash-lite','gemini-3.8-flash','gemini-3.6-flash','gemini-2.5-flash-lite'];
+let GK=localStorage.getItem('fmc4_gk')||DEFK,GML=L('fmc4_gml')||[...FALLBACK_MODELS],GM=localStorage.getItem('fmc4_gm')||GML[0],CH=L('fmc4_chat')||[],busy=0,cancelled=0,TM={};
+const GB='https://generativelanguage.googleapis.com/v1beta/models';
+const SYS=()=>`You are Krishi AI, a helpful agricultural assistant designed for farmers in India. Explain things in simple, practical, easy-to-understand language. Respond in the user's selected language: ${LNE[lang]}. Avoid complex technical terms. When necessary, give step-by-step guidance. Do not claim that demo market prices are live. Crop disease advice must be cautious and informational, and recommend contacting local agricultural experts when the issue is serious or uncertain. Never invent government schemes, prices, pesticide instructions, or agricultural facts. Keep answers short.`;
+async function gemOnce(model,contents,sys,o={}){if(!GK)throw new Error('nokey');cancelled=0;
+const req=fetch(`${GB}/${model}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':GK},body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents,generationConfig:{maxOutputTokens:o.max||1200,temperature:.5,...(o.json?{responseMimeType:'application/json'}:{})}})});
+const timer=new Promise((_,rej)=>setTimeout(()=>rej('timeout'),10000));
+try{const r=await Promise.race([req,timer]);if(cancelled)throw new Error('cancel');
+const j=await r.json().catch(()=>({}));
+if(!r.ok){const detail=(j.error?.message||r.statusText||String(r.status)).slice(0,120),m=JSON.stringify(j);
+if(r.status===429)throw new Error('quota');
+if(r.status===404)throw new Error('model ['+r.status+' '+detail+']');
+if((r.status===400||r.status===401||r.status===403)&&/API.?KEY|api key|PERMISSION|UNAUTHENTICATED/i.test(m))throw new Error('key ['+r.status+' '+detail+']');
+throw new Error('gen ['+r.status+' '+detail+']')}
+const x=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();if(!x)throw new Error('empty');return x}
+catch(e){if(e==='timeout')throw new Error('timeout');if(cancelled||e?.message==='cancel')throw new Error('cancel');if(e instanceof TypeError)throw new Error('net');throw e}}
+async function gem(contents,sys,o={}){const tryList=[GM,...GML,...FALLBACK_MODELS].filter((v,i,a)=>v&&a.indexOf(v)===i);let lastErr=null;
+for(const m of tryList){try{const out=await gemOnce(m,contents,sys,o);if(m!==GM){GM=m;localStorage.setItem('fmc4_gm',GM)}return out}catch(e){lastErr=e;if(e.message==='cancel'||e.message==='nokey'||e.message.startsWith('key'))throw e}}
+throw lastErr||new Error('model')}
+const errMsg=e=>{const m=e?.message||'';if(m==='nokey')return t('nokey');if(m.startsWith('key'))return t('e_key')+' '+m.slice(3);if(m==='quota')return t('e_quota');if(m.startsWith('model'))return t('e_model')+' '+m.slice(5);if(m==='net')return t('e_net');if(m==='empty')return t('e_empty');if(m==='timeout')return t('e_timeout');return t('e_gen')+' '+m.replace(/^gen\s*/,'')};
+const fmt=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+PG.ai=()=>`<h2>🤖 ${t('ai')}</h2><div class="row"><button type="button" class="b g2" style="flex:none" onclick="go('aiset')">⚙️ ${t('aiset')}</button><button type="button" class="b g2" style="flex:none" onclick="clr()">🗑 ${t('clearchat')}</button></div>${GK?'':`<div class="note">${t('nokey')}</div>`}<div class="row">${[1,2,3,4,5,6].map(i=>`<button type="button" class="b g2" style="flex:none;font-size:.85em" onclick="send(t('sp'+i))">${t('sp'+i)}</button>`).join('')}</div><div class="box"><div class="chat" id="ch" style="max-height:50vh">${CH.map(m=>`<div class="m ${m.r==='u'?'me':m.r==='e'?'e':''}">${fmt(m.t)}${m.r==='e'?`<br><button type="button" class="b o" onclick="retry()">↻ ${t('retry')}</button>`:''}</div>`).join('')}${busy?'<div class="m"><span class="dots">● ● ●</span></div>':''}</div><span class="mw"><input id="ai_in" placeholder="${t('askph')}" onkeydown="if(event.key==='Enter')send()">${HV?`<button type="button" class="mic" onclick="mic('ai_in')">🎤</button>`:''}<button type="button" class="b" onclick="send()">➤ ${t('send')}</button></span></div>`;
+function send(x){if(busy)return;x=x||$('#ai_in')?.value.trim();if(!x)return;CH.push({r:'u',t:x});run()}
+async function run(){if(busy)return;busy=1;render();try{const x=await gem(CH.filter(m=>m.r!=='e').slice(-8).map(m=>({role:m.r==='u'?'user':'model',parts:[{text:m.t}]})),SYS());if(!cancelled)CH.push({r:'m',t:x})}catch(e){if(e?.message!=='cancel'&&!cancelled)CH.push({r:'e',t:errMsg(e)})}finally{busy=0;S('fmc4_chat',CH.slice(-30));if(location.hash==='#ai')render()}}
+const retry=()=>{if(busy)return;CH=CH.filter(m=>m.r!=='e');run()},clr=()=>{cancelled=1;CH=[];busy=0;S('fmc4_chat',[]);render()};
+PG.aiset=()=>`<h2>⚙️ ${t('aiset')}</h2><div class="note">⚠️ ${t('aiwarn')}</div><div class="box"><b>${GK?'✅ '+t('connected'):'⚪ '+t('nokey')}</b>${GK?`<p>🔑 ••••••••${esc(GK.slice(-4))}</p>`:''}<label>${t('aikey')}<input id="gk" type="password" autocomplete="off" placeholder="${GK?'••••••••':'AIza...'}"></label><label>${t('model')}<select id="gm">${GML.map(m=>`<option ${m==GM?'selected':''}>${m}</option>`).join('')}</select></label><div class="row"><button type="button" class="b" onclick="saveK()">${t('save')}</button><button type="button" class="b o" onclick="testK()">${t('test')}</button><button type="button" class="b r" onclick="rmK()">${t('rmkey')}</button></div><p id="gst"></p></div>${lang==='en'?'':`<div class="box"><button type="button" class="b g2" onclick="fillTr()">🌐 ${t('filltr')}</button><p id="fst"></p></div>`}`;
+const saveK=()=>{const v=$('#gk')?.value.trim();if(v){GK=v;localStorage.setItem('fmc4_gk',v)}GM=$('#gm')?.value||FALLBACK_MODELS[0];localStorage.setItem('fmc4_gm',GM);toast('✅');render()};
+const rmK=()=>{GK=DEFK;GML=[...FALLBACK_MODELS];GM=GML[0];localStorage.removeItem('fmc4_gk');localStorage.removeItem('fmc4_gm');localStorage.removeItem('fmc4_gml');toast('✅');render()};
+async function testK(){const old=GK,oldM=GM,v=$('#gk')?.value.trim();if(v)GK=v;if(!GK)return toast(t('nokey'));if($('#gst'))$('#gst').textContent='…';GM=$('#gm')?.value||FALLBACK_MODELS[0];
+try{const r=await fetch(GB+'?pageSize=100',{headers:{'x-goog-api-key':GK}});if(r.ok){const j=await r.json(),l=(j.models||[]).filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent')&&/gemini-/.test(m.name)).map(m=>m.name.replace('models/',''));if(l.length){GML=l;if(!l.includes(GM))GM=l.find(m=>/3\.5-flash-lite|3\.8-flash|flash/.test(m))||l[0]}}
+await gem([{role:'user',parts:[{text:'Say OK'}]}],'Reply with OK',{max:50});localStorage.setItem('fmc4_gk',GK);localStorage.setItem('fmc4_gm',GM);S('fmc4_gml',GML);render();toast('✅ '+t('connected'))}catch(e){GK=old;GM=oldM;if($('#gst'))$('#gst').textContent='❌ '+errMsg(e)}}
+async function aiDesc(){const v=i=>$('#'+i).value,b=$('#dbtn');b.disabled=1;try{$('#fd').value=await gem([{role:'user',parts:[{text:`Write a short, honest product description (max 60 words) for a farm product listing. Use only these facts and invent nothing. Product: ${v('fn')}. Quantity: ${v('fq')} ${v('fu')}. Location: ${v('flv')}, ${v('fld')}, ${v('fls')}. Grade: ${v('fg')}. Price: Rs ${v('fp')} per ${v('fu')}. Harvest date: ${v('fh')}.`}]}],SYS(),{max:500})}catch(e){toast(errMsg(e))}b.disabled=0}
+const trTxt=x=>gem([{role:'user',parts:[{text:`Translate to ${LNE[lang]}. Output only the translation:\n${x}`}]}],'You are a precise translator for Indian farmers and buyers.',{max:600});
+async function trM(id){const m=DB.msgs.find(x=>x.id===id);toast('…');try{TM[id]=await trTxt(m.text);render()}catch(e){toast(errMsg(e))}}
+async function trD(){const el=$('#mt');if(!el.value.trim())return;try{el.value=await trTxt(el.value);toast('✏️ '+t('review'))}catch(e){toast(errMsg(e))}}
+async function fillTr(){const o={};K.forEach((k,i)=>{if(!TR[lang][i]&&TR.en[i])o[k]=TR.en[i]});if(!Object.keys(o).length)return toast('✅');if($('#fst'))$('#fst').textContent='…';
+try{const x=await gem([{role:'user',parts:[{text:`Translate the JSON values to ${LNE[lang]} in simple everyday words. Keep keys, {0} {1} placeholders, emoji and numbers unchanged. Return only JSON.\n`+JSON.stringify(o)}]}],'You translate app UI text for Indian farmers.',{max:8000,json:1});const r=JSON.parse(x.replace(/```json|```/g,'')),sv=L('fmc4_tr_'+lang)||{};Object.assign(sv,r);S('fmc4_tr_'+lang,sv);applyTr();render();toast('✅ '+Object.keys(r).length)}catch(e){if($('#fst'))$('#fst').textContent='❌ '+errMsg(e)}}
+const _r=render;render=function(){_r();const c=$('#ch');if(c)c.scrollTop=c.scrollHeight};
+
+addEventListener('hashchange',()=>{closeM();render()});render();
+</script></body></html>
