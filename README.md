@@ -64,13 +64,13 @@ Screenshots: [Add screenshots of Home, Marketplace, Nearby Buyers Map, Market Pr
 Demo Video: [Add demo video or Streamlit Cloud app link here]
 
 8. Team Members
-Member 1 – [Soumeli Dey / Name]
+Member 1 – [Soumeli Dey]
 
-Member 2 – [Name]
+Member 2 – [Akash Barat]
 
-Member 3 – [Name]
+Member 3 – [Ankita Dutta]
 
-Member 4 – [Name]
+Member 4 – [Shreya Shit]
 
 9. Future Scope
 Connect live official mandi price feeds and real-time weather/advisory data instead of sample/demo data.
