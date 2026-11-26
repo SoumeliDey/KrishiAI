@@ -29,11 +29,11 @@ header select{font-weight:700;background:#f08a24!important;border-color:#fff!imp
 </style></head><body><div id="app"></div><div id="modal"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
-/* ===== DEFAULT GEMINI API KEY (fallback) — REPLACE THE TEXT BELOW WITH YOUR REAL KEY ===== */
-const DEFAULT_GEMINI_API_KEY = "PASTE_YOUR_API_KEY_HERE";
+/* ===== DEFAULT GEMINI API KEY (fallback) — keep empty so secrets stay off the client ===== */
+const DEFAULT_GEMINI_API_KEY = "";
 const DEFK = DEFAULT_GEMINI_API_KEY && DEFAULT_GEMINI_API_KEY !== "PASTE_YOUR_API_KEY_HERE" ? DEFAULT_GEMINI_API_KEY : '';
 const $=s=>document.querySelector(s),L=k=>JSON.parse(localStorage.getItem(k)||'null'),S=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&','<':'<','>':'>','"':'"',"'":'''}[c]));
 const uid=()=>Math.random().toString(36).slice(2,9),ago=ts=>new Date(ts).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
 /* ===== TRANSLATIONS ===== */
 const K='home market prices dash msgs notifs profile login register logout hero sub explore join search all price qty contact details add edit del sold listings enq welcome easy name mobile pass role farmer buyer state district village save none demoF demoB note send message clear product category unit photo how sent status'.split(' ');
@@ -47,7 +47,7 @@ gu:'હોમ|બજાર|બજાર ભાવ|ડેશબોર્ડ|સ�
 ta:'முகப்பு|சந்தை|சந்தை விலை|டாஷ்போர்டு|செய்திகள்|அறிவிப்புகள்|சுயவிவரம்|உள்நுழை|பதிவு|வெளியேறு|உங்கள் அறுவடையை விற்கவும். சிறந்த வாய்ப்புகளைப் பெறுங்கள்.|வாங்குபவர்களுடன் நேரடியாக இணையுங்கள், சந்தை விலையை அறியுங்கள்.|சந்தையைப் பார்க்க|விவசாயியாக இணையுங்கள்'.split('|'),
 te:'హోమ్|మార్కెట్|మార్కెట్ ధరలు|డ్యాష్‌బోర్డ్|సందేశాలు|నోటిఫికేషన్లు|ప్రొఫైల్|లాగిన్|నమోదు|లాగౌట్|మీ పంటను అమ్మండి. మెరుగైన అవకాశాలు పొందండి.|కొనుగోలుదారులతో నేరుగా కలవండి, మార్కెట్ ధరలు తెలుసుకోండి.|మార్కెట్ చూడండి|రైతుగా చేరండి'.split('|'),
 kn:'ಮುಖಪುಟ|ಮಾರುಕಟ್ಟೆ|ಮಾರುಕಟ್ಟೆ ಬೆಲೆ|ಡ್ಯಾಶ್‌ಬೋರ್ಡ್|ಸಂದೇಶಗಳು|ಅಧಿಸೂಚನೆಗಳು|ಪ್ರೊಫೈಲ್|ಲಾಗಿನ್|ನೋಂದಣಿ|ಲಾಗೌಟ್|ನಿಮ್ಮ ಬೆಳೆ ಮಾರಿ. ಉತ್ತಮ ಅವಕಾಶ ಪಡೆಯಿರಿ.|ಖರೀದಿದಾರರೊಂದಿಗೆ ನೇರವಾಗಿ ಸಂಪರ್ಕಿಸಿ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ ತಿಳಿಯಿರಿ.|ಮಾರುಕಟ್ಟೆ ನೋಡಿ|ರೈತರಾಗಿ ಸೇರಿ'.split('|'),
-ml:'ഹോം|മാർക്കറ്റ്|വിപണി വില|ഡാഷ്ബോർഡ്|സന്ദേശങ്ങൾ|അറിയിപ്പുകൾ|പ്രൊഫೈൽ|ലോഗിൻ|രജിസ്റ്റർ|ലോഗൗട്ട്|നിങ്ങളുടെ വിള വിൽക്കൂ. മെച്ചപ്പെട്ട അവസരങ്ങൾ നേടൂ.|വാങ്ങുന്നവരുമായി നേരിട്ട് ബന്ധപ്പെടൂ, വിപണി വില അറിയൂ.|മാർക്കറ്റ് കാണുക|കർഷകനായി ചേരൂ'.split('|'),
+ml:'ഹോം|മാർക്കറ്റ്|വിപണി വില|ഡാഷ്ബോർഡ്|സന്ദേശങ്ങൾ|അറിയിപ്പുകൾ|പ്രൊഫൈൽ|ലോഗിൻ|രജിസ്റ്റർ|ലോഗൗട്ട്|നിങ്ങളുടെ വിള വിൽക്കൂ. മെച്ചപ്പെട്ട അവസരങ്ങൾ നേടൂ.|വാങ്ങുന്നവരുമായി നേരിട്ട് ബന്ധപ്പെടൂ, വിപണി വില അറിയൂ.|മാർക്കറ്റ് കാണുക|കർഷകനായി ചേരൂ'.split('|'),
 or:'ମୁଖ୍ୟ ପୃଷ୍ଠା|ବଜାର|ବଜାର ଦର|ଡ୍ୟାସବୋର୍ଡ|ବାର୍ତ୍ତା|ବିଜ୍ଞପ୍ତି|ପ୍ରୋଫାଇଲ|ଲଗଇନ|ପଞ୍ଜୀକରଣ|ଲଗଆଉଟ|ଆପଣଙ୍କ ଫସଲ ବିକ୍ରି କରନ୍ତୁ। ଭଲ ସୁଯୋଗ ପାଆନ୍ତୁ।|କ୍ରେତାମାନଙ୍କ ସହ ସିଧାସଳଖ ଯୁକ୍ତ ହୁଅନ୍ତୁ, ବଜାର ଦର ଜାଣନ୍ତୁ।|ବଜାର ଦେଖନ୍ତୁ|କୃଷକ ଭାବେ ଯୋଗ ଦିଅନ୍ତୁ'.split('|')};
 const LN={en:'English',hi:'हिंदी',bn:'বাংলা',mr:'मराठी',pa:'ਪੰਜਾਬੀ',gu:'ગુજરાતી',ta:'தமிழ்',te:'తెలుగు',kn:'ಕನ್ನಡ',ml:'മലയാളം',or:'ଓଡ଼ିଆ'};
 const VL={en:'en-IN',hi:'hi-IN',bn:'bn-IN',mr:'mr-IN',pa:'pa-IN',gu:'gu-IN',ta:'ta-IN',te:'te-IN',kn:'kn-IN',ml:'ml-IN',or:'or-IN'};
@@ -250,7 +250,7 @@ function renderNearbyMap(list){
   if(!window.L){mapEl.innerHTML=`<div style="padding:16px">${t('map_offline_note')}</div>`;return}
   if(!MAP_INST){
     MAP_INST=L.map('buyerMap').setView([23.05,87.55],8);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(MAP_INST);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(MAP_INST);
     MAP_LAYER=L.layerGroup().addTo(MAP_INST);
   }
   MAP_LAYER.clearLayers();
